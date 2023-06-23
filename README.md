@@ -1,4 +1,4 @@
-# Microsoft Basic for Cerberus
+# Microsoft Basic for Cerberus 2080/2100
 
 Forked from [this repo](http://github.com/mist64/msbasic).
 
