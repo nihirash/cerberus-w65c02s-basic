@@ -1,0 +1,3 @@
+.segment "HEADER"
+
+        jmp     Reset           
