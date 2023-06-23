@@ -1,6 +1,5 @@
 .segment "CODE"
 
-.ifndef SYM1
 SIN_COS_TAN_ATN:
 ; ----------------------------------------------------------------------------
 ; "COS" FUNCTION
@@ -93,18 +92,7 @@ TAN1:
         jmp     SIN1
 
 ; ----------------------------------------------------------------------------
-.ifdef CONFIG_SMALL
-CON_PI_HALF:
-        .byte   $81,$49,$0F,$DB
-CON_PI_DOUB:
-        .byte   $83,$49,$0F,$DB
-QUARTER:
-        .byte   $7F,$00,$00,$00
-POLY_SIN:
-        .byte   $04,$86,$1E,$D7,$FB,$87,$99,$26
-        .byte   $65,$87,$23,$34,$58,$86,$A5,$5D
-        .byte   $E1,$83,$49,$0F,$DB
-.else
+
 CON_PI_HALF:
         .byte   $81,$49,$0F,$DA,$A2
 CON_PI_DOUB:
@@ -119,9 +107,7 @@ POLY_SIN:
  
 NIHIRASH: ;Nihirash?!
         .byte   "!?hsarihiN"
-.endif
 
-.ifndef AIM65
 ; ----------------------------------------------------------------------------
 ; "ATN" FUNCTION
 ; ----------------------------------------------------------------------------
@@ -161,18 +147,6 @@ L4002:
 
 ; ----------------------------------------------------------------------------
 POLY_ATN:
-.ifdef CONFIG_SMALL
-        .byte   $08
-		.byte	$78,$3A,$C5,$37
-		.byte	$7B,$83,$A2,$5C
-		.byte	$7C,$2E,$DD,$4D
-		.byte	$7D,$99,$B0,$1E
-		.byte	$7D,$59,$ED,$24
-		.byte	$7E,$91,$72,$00
-		.byte	$7E,$4C,$B9,$73
-		.byte	$7F,$AA,$AA,$53
-		.byte	$81,$00,$00,$00
-.else
         .byte   $0B
 		.byte	$76,$B3,$83,$BD,$D3
 		.byte	$79,$1E,$F4,$A6,$F5
@@ -186,10 +160,3 @@ POLY_ATN:
 		.byte	$7E,$4C,$CC,$91,$C7
 		.byte	$7F,$AA,$AA,$AA,$13
         .byte   $81,$00,$00,$00,$00
-.endif
-
-.if .def(CONFIG_11A) && (!.def(CONFIG_2))
-		.byte	$00 ; XXX
-.endif
-.endif
-.endif

@@ -15,7 +15,7 @@ CURSOR  = ' ' + $80
 SPACE   = ' '
 
 KBD_RET  = $0D  ; Return
-KBD_BACK = $05  ; Backspace
+KBD_BACK = $08  ; Backspace
 
 
 Reset:
