@@ -1,7 +1,7 @@
 .feature force_range
 .debuginfo +
 
-.setcpu "6502"
+.pc02
 .macpack longbranch
 
 .include "defines.s"
@@ -15,7 +15,6 @@
 .include "memory.s"
 .include "program.s"
 .include "flow1.s"
-.include "loadsave.s"
 .include "flow2.s"
 .include "misc1.s"
 .include "print.s"

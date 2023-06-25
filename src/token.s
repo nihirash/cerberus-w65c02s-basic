@@ -10,73 +10,36 @@
 		keyword_rts "INPUT", INPUT
 		keyword_rts "DIM", DIM
 		keyword_rts "READ", READ
-.ifdef APPLE
-		keyword_rts "PLT", PLT
-.else
 		keyword_rts "LET", LET
-.endif
 		keyword_rts "GOTO", GOTO, TOKEN_GOTO
 		keyword_rts "RUN", RUN
 		keyword_rts "IF", IF
 		keyword_rts "RESTORE", RESTORE
 		keyword_rts "GOSUB", GOSUB, TOKEN_GOSUB
 		keyword_rts "RETURN", POP
-.ifdef APPLE
-		keyword_rts "TEX", TEX, TOKEN_REM
-.else
 		keyword_rts "REM", REM, TOKEN_REM
-.endif
 		keyword_rts "STOP", STOP
 		keyword_rts "ON", ON
-.ifdef CONFIG_NULL
-		keyword_rts "NULL", NULL
-.endif
-.ifdef KBD
-		keyword_rts "PLOD", PLOD
-		keyword_rts "PSAV", PSAV
-		keyword_rts "VLOD", VLOD
-		keyword_rts "VSAV", VSAV
-.endif
-.ifndef CONFIG_NO_POKE
 		keyword_rts "WAIT", WAIT
-.endif
-.ifndef KBD
 		keyword_rts "LOAD", LOAD
 		keyword_rts "SAVE", SAVE
-.endif
-.ifdef CONFIG_CBM_ALL
-		keyword_rts "VERIFY", VERIFY
-.endif
 		keyword_rts "DEF", DEF
-.ifdef KBD
-		keyword_rts "SLOD", SLOD
-.endif
-.ifndef CONFIG_NO_POKE
 		keyword_rts "POKE", POKE
-.endif
 .ifdef CONFIG_FILE
 		keyword_rts "PRINT#", PRINTH
 .endif
 		keyword_rts "PRINT", PRINT, TOKEN_PRINT
 		keyword_rts "CONT", CONT
 		keyword_rts "LIST", LIST
-.ifdef CONFIG_CBM_ALL
-		keyword_rts "CLR", CLEAR
-.else
 		keyword_rts "CLEAR", CLEAR
-.endif
+		keyword_rts "CLS", clear_screen
 .ifdef CONFIG_FILE
 		keyword_rts "CMD", CMD
 		keyword_rts "SYS", SYS
 		keyword_rts "OPEN", OPEN
 		keyword_rts "CLOSE", CLOSE
 .endif
-.ifndef CONFIG_SMALL
 		keyword_rts "GET", GET
-.endif
-.ifdef KBD
-		keyword_rts "PRT", PRT
-.endif
 		keyword_rts "NEW", NEW
 
 		count_tokens
@@ -92,11 +55,7 @@
 		keyword	"-", TOKEN_MINUS
 		keyword	"*"
 		keyword	"/"
-.ifdef KBD
-		keyword	"#"
-.else
 		keyword	"^"
-.endif
 		keyword	"AND"
 		keyword	"OR"
 		keyword	">", TOKEN_GREATER
@@ -109,16 +68,8 @@ UNFNC:
 		keyword_addr "SGN", SGN, TOKEN_SGN
 		keyword_addr "INT", INT
 		keyword_addr "ABS", ABS
-.ifdef KBD
-		keyword_addr "VER", VER
-.endif
-.ifndef CONFIG_NO_POKE
-  .ifdef CONFIG_RAM
-		keyword_addr "USR", IQERR
-  .else
+		keyword_addr "KEY$", KEYSTR
 		keyword_addr "USR", USR, TOKEN_USR
-  .endif
-.endif
 		keyword_addr "FRE", FRE
 		keyword_addr "POS", POS
 		keyword_addr "SQR", SQR
@@ -137,12 +88,7 @@ UNFNC_TAN:
 .segment "VECTORS"
 UNFNC_ATN:
 		keyword_addr "ATN", ATN
-.ifdef KBD
-		keyword_addr "GETC", GETC
-.endif
-.ifndef CONFIG_NO_POKE
 		keyword_addr "PEEK", PEEK
-.endif
 		keyword_addr "LEN", LEN
 		keyword_addr "STR$", STR
 		keyword_addr "VAL", VAL
@@ -151,9 +97,7 @@ UNFNC_ATN:
 		keyword_addr "LEFT$", LEFTSTR, TOKEN_LEFTSTR
 		keyword_addr "RIGHT$", RIGHTSTR
 		keyword_addr "MID$", MIDSTR
-.ifdef CONFIG_2
 		keyword	"GO", TOKEN_GO
-.endif
         .segment "KEYWORDS"
 		.byte   0
 

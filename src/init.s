@@ -210,8 +210,6 @@ L4136:
         jmp     RESTART
 
 
-
-
 QT_MEMORY_SIZE:
         .byte   "MEMORY SIZE"
         .byte   0
@@ -225,6 +223,6 @@ QT_BASIC:
         .byte   CR, LF, CR, LF
         .byte   "       BASED ON MICROSOFT BASIC V2"
         .byte   CR,LF,CR,LF
-        .byte "       64K SYSTEM"
+        .byte "       64K SYSTEM "
         .byte 0
 

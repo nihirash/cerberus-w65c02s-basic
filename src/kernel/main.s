@@ -15,7 +15,7 @@ CURSOR  = ' ' + $80
 SPACE   = ' '
 
 KBD_RET  = $0D  ; Return
-KBD_BACK = $08  ; Backspace
+KBD_BACK = 127  ; Backspace
 
 
 Reset:
@@ -66,7 +66,6 @@ putc:
   ldy COL
   sta (LINE),y
   inc COL
-  sty POSX
   
   cpy #MAX_COL-1
   beq @return
@@ -272,6 +271,20 @@ scroll_up:
   ply
   rts
 
+;; Non blocking reading key
+NB_GETC:
+    lda MAILFLAG
+    beq @exit
+
+    stz MAILFLAG
+    lda MAILBOX
+    CMP #'a'
+    bcc @exit
+    cmp #'z'+1
+    bcs @exit
+    and #$DF
+@exit:
+    rts
 
 ;; Read key
 MONRDKEY:
@@ -291,11 +304,11 @@ MONRDKEY:
     LDA     #$08
     jmp     @exit
 @uppercase:
-  CMP #'a'
-  bcc @exit
-  cmp #'z'+1
-  bcs @exit
-  and #$DF
+;  CMP #'a'
+;  bcc @exit
+;  cmp #'z'+1
+;  bcs @exit
+;  and #$DF
 @exit:
   cmp #$0D
   beq @noout
@@ -307,7 +320,7 @@ MONRDKEY:
 
 ISCNTC:
   lda MAILBOX
-  cmp #$3
+  cmp #$6 
   bne do_nothing
   stz MAILFLAG
   jmp STOP

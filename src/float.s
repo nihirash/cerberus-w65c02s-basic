@@ -1412,6 +1412,7 @@ LINPRT:
         sec
         jsr     FLOAT2
         jsr     FOUT
+        ina
 GOSTROUT2:
         jmp     STROUT
 

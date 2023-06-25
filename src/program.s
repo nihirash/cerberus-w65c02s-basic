@@ -20,16 +20,9 @@ MEMERR:
 ; ----------------------------------------------------------------------------
 ERROR:
         lsr     Z14
-.ifdef CONFIG_FILE
-        lda     CURDVC    ; output
-        beq     LC366     ; is screen
-        jsr     CLRCH     ; otherwise redirect output back to screen
-        lda     #$00
-        sta     CURDVC
-LC366:
-.endif
         jsr     CRDO
-        jsr     OUTQUES
+        lda     #' '
+        jsr     OUTDO
 L2329:
         lda     ERROR_MESSAGES,x
 .ifndef CONFIG_SMALL_ERROR
@@ -282,11 +275,7 @@ LE33D:
 L23FA:
         ldy     #$01
         lda     (INDEX),y
-.ifdef CONFIG_2
         beq     RET3
-.else
-        jeq     L2351
-.endif
         ldy     #$04
 L2405:
         iny
@@ -307,15 +296,8 @@ L2405:
         bcc     L23FA	; always
 
 ; ----------------------------------------------------------------------------
-.ifdef KBD
-.include "kbd_loadsave.s"
-.endif
-
-.ifdef CONFIG_2
-; !!! kbd_loadsave.s requires an RTS here!
 RET3:
 		rts
-.endif
 
 .include "inline.s"
 
@@ -368,15 +350,7 @@ L2496:
 L2497:
         inx
 L2498:
-.ifdef KBD
         jsr     GET_UPPER
-.else
-        lda     INPUTBUFFERX,x
-  .ifndef CONFIG_2
-        cmp     #$20
-        beq     L2497
-  .endif
-.endif
         sec
         sbc     TOKEN_NAME_TABLE,y
         beq     L2496
@@ -520,6 +494,7 @@ L2520:
 ; ----------------------------------------------------------------------------
 NEW:
         bne     L2520
+        jsr     clear_screen
 SCRTCH:
         lda     #$00
         tay
