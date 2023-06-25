@@ -206,7 +206,6 @@ SETDA:
 RET2:
         rts
 
-.include "iscntc.s"
 ;!!! runs into "STOP"
 ; ----------------------------------------------------------------------------
 ; "STOP" STATEMENT

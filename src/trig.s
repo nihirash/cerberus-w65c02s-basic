@@ -105,8 +105,8 @@ POLY_SIN:
         .byte   $87,$23,$35,$DF,$E1,$86,$A5,$5D
         .byte   $E7,$28,$83,$49,$0F,$DA,$A2
  
-NIHIRASH: ;Nihirash?!
-        .byte   "!?hsarihiN"
+NIHIRASH: ;!Nihirash!
+        .byte   "!hsarihiN!"
 
 ; ----------------------------------------------------------------------------
 ; "ATN" FUNCTION

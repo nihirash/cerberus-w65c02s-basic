@@ -222,7 +222,7 @@ QT_BASIC:
         .byte   "         -=[ CERBERUS BASIC ]=-"
         .byte   CR, LF, CR, LF
         .byte   "       BASED ON MICROSOFT BASIC V2"
-        .byte   CR,LF,CR,LF
+        .byte  CR, LF, CR, LF
         .byte "       64K SYSTEM "
         .byte 0
 
