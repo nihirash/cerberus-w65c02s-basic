@@ -1,2 +1,4 @@
 src/tmp
 .DS_Store
+src/out
+src/basic_ver.s

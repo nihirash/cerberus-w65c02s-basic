@@ -43,20 +43,11 @@ EASTER_EGG:
         tay
         lda     #$F8
         sta     LINNUM+1
-LD758:
-        ldx     #$0A
-LD75A:
-        lda     NIHIRASH-1,x
-        sta     (LINNUM),y
-        iny
-        bne     LD766
-        inc     LINNUM+1
-LD766:
-        dex
-        bne     LD75A
-        dec     FORPNT
-        bne     LD758
-        rts
+KERNEL_VER:
+        lda     #<kernel_ver
+        ldy     #>kernel_ver
+        jmp     GOSTROUT2
+        
 
 
 ; ----------------------------------------------------------------------------

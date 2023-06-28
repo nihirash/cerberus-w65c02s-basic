@@ -8,7 +8,7 @@
 .include "macros.s"
 .include "zeropage.s"
 
-.include "header.s"
+.include "kernel/main.s"
 .include "token.s"
 .include "error.s"
 .include "message.s"

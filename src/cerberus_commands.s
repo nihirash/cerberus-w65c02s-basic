@@ -19,10 +19,26 @@ KEYSTR:
         lda     #$01
         jsr     STRSPA
         
-        jsr     NB_GETC
+        jsr     inkey
         
         ldy     #$00
         sta     (FAC+1),y
         pla
         pla
         jmp     PUTNEW
+
+
+;; Print kernel and basic versions
+VER:
+        jsr KERNEL_VER
+        lda     #<commit
+        ldy     #>commit
+        jmp     GOSTROUT2
+
+;; TODO: Implement
+LOAD:
+	RTS
+
+;; TODO: Implement	
+SAVE:
+	RTS

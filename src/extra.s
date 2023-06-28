@@ -1,4 +1,7 @@
 .segment "EXTRA"
 
 .include "cerberus_commands.s"
-.include "kernel/main.s"
+
+commit:
+.byte "Basic built from commit: "
+.include "basic_ver.s"

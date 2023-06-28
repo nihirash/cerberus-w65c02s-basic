@@ -35,7 +35,7 @@ ENTROPY = $F821
 
 ; monitor functions
 ;MONRDKEY        := read_char_upper_echo
-;MONCOUT         := display_char
+MONCOUT         := putc
 ;CHKIN           := do_nothing
 ;CHKOUT          := do_nothing
 CLALL           := do_nothing
