@@ -3,9 +3,6 @@
 ; tokenize
 ; detokenize
 ; BASIC program memory management
-
-; MICROTAN has some nonstandard extension to LIST here
-
 .segment "CODE"
 
 MEMERR:
@@ -57,7 +54,9 @@ RESTART:
         ldy     #>QT_OK
         jsr     STROUT
 L2351:
-        jsr     INLIN
+        ;jsr     INLIN
+        jsr     screen_editor
+             
         stx     TXTPTR
         sty     TXTPTR+1
         jsr     CHRGET

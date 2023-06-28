@@ -5,6 +5,7 @@ inkey:
 
     stz MAILFLAG
     lda MAILBOX
+
     CMP #'a'
     bcc @exit
     cmp #'z'+1
@@ -19,7 +20,7 @@ MONRDKEY:
 @loop:
     lda MAILFLAG
     beq @loop
-    
+
     stz MAILFLAG
     lda MAILBOX
 ;; Replacements

@@ -1,10 +1,108 @@
+putc:
+  phy
+  pha
+
+  cmp #13
+  beq @curdn
+
+  cmp #KBD_DN
+  beq @curdn
+
+  cmp #KBD_LF
+  beq @move_left
+
+  cmp #KBD_RT
+  beq @move_right
+
+  cmp #10
+  beq @home
+
+  cmp #KBD_UP
+  beq @move_up
+
+  ldy COL
+  sta (LINE),y
+@mvy_next:
+  inc COL
+  
+  cpy #MAX_COL-1
+  beq @return
+
+  pla
+  ply
+  rts
+@move_right:
+    jsr erase_cursor
+    lda COL
+    jmp @mvy_next
+@move_left:
+    jsr erase_cursor
+    lda COL
+    beq @exit
+    dea
+    sta COL
+    jmp @exit
+@move_up:
+    jsr erase_cursor
+    lda ROW
+    beq @exit
+    
+    lda LINE
+    clc
+    sbc #MAX_COL-1
+    sta LINE
+
+    lda LINE+1
+    sbc #0
+    sta LINE+1
+
+    dec ROW
+    jmp @exit
+
+@home:
+  stz COL
+@exit:
+  pla
+  ply
+  rts
+@return:
+  jsr erase_cursor
+  stz COL
+  jmp @skipe
+@curdn:
+  jsr erase_cursor
+@skipe:
+; last row?
+  lda ROW
+  cmp #MAX_ROW-1
+  bne @not_last_row
+; yes last row --> don't inc ROW, scroll everything up
+  jsr scroll_up
+  jmp @exit
+; else (not last row)
+@not_last_row:  
+  ; LINE<-LINE+MAX_COL
+  clc
+  lda LINE
+  adc #MAX_COL
+  sta LINE
+  lda LINE+1
+  adc #0
+  sta LINE+1
+  ; ROW++
+  inc ROW   
+  jmp @exit
+
+
 erase_cursor:
   pha
   phy
+
   ldy COL
   lda (LINE), y
   and #$7f
   sta (LINE),y
+  
   ply
   pla
   rts

@@ -27,8 +27,8 @@ RAMEND      := $EFFF
 ; constants
 SPACE_FOR_GOSUB := $3E
 STACK_TOP		:= $FC
-WIDTH			:= 40
-WIDTH2			:= 30
+WIDTH			:= 80
+WIDTH2			:= 70
 
 ; magic memory locations
 ENTROPY = $F821
