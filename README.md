@@ -1,6 +1,6 @@
-# Microsoft Basic for Cerberus 2080/2100
+# Cerberus W65C02S Basic
 
-Forked from [this repo](http://github.com/mist64/msbasic).
+Based on Microsoft Basic for 6502. Forked from [this repo](http://github.com/mist64/msbasic).
 
 It's early in progress and not tested on real hardware. 
 

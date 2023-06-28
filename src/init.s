@@ -44,48 +44,19 @@ L4098:
         sta     CHRGET-1,x
         dex
         bne     L4098
-.ifdef CONFIG_2
+
         lda     #$03
         sta     DSCLEN
-.endif
-.ifndef KBD
+
         txa
         sta     SHIFTSIGNEXT
-  .ifdef CONFIG_CBM_ALL
         sta     CURDVC
-  .endif
         sta     LASTPT+1
-  .ifndef AIM65
-  .if .defined(CONFIG_NULL) || .defined(CONFIG_PRINTNULLS)
-        sta     Z15
-  .endif
-  .endif
-  .ifndef CONFIG_11
-        sta     POSX
-  .endif
         pha
         sta     Z14
-  .ifndef CBM2
-   .ifndef AIM65
-   .ifndef SYM1
-    .ifndef MICROTAN
-        lda     #$03
-        sta     DSCLEN
-    .endif
-   .endif
-   .endif
-    .ifndef CONFIG_11
-        lda     #$2C
-        sta     LINNUM+1
-    .endif
-        jsr     CRDO
-  .endif
-  .ifdef CBM2
         inx
         stx     INPUTBUFFER-3
         stx     INPUTBUFFER-4
-  .endif
-
         ldx     #TEMPST
         stx     TEMPPT
 
@@ -127,53 +98,9 @@ L40FA:
         ldy     LINNUM+1
         sta     MEMSIZ
         sty     MEMSIZ+1
-.if !(.def(MICROTAN) || .def(AIM65) || .def(SYM1))
         sta     FRETOP
         sty     FRETOP+1
-.endif
 L4106:
-.ifndef CONFIG_CBM_ALL
-  .ifdef APPLE
-        lda     #$FF
-        jmp     L2829
-        .word	STROUT ; PATCH!
-        jsr     NXIN
-  .else
-        lda     #<QT_TERMINAL_WIDTH
-        ldy     #>QT_TERMINAL_WIDTH
-        jsr     STROUT
-        jsr     NXIN
-  .endif
-        stx     TXTPTR
-        sty     TXTPTR+1
-        jsr     CHRGET
-        tay
-        beq     L4136
-        jsr     LINGET
-        lda     LINNUM+1
-        bne     L4106
-        lda     LINNUM
-        cmp     #$10
-        bcc     L4106
-L2829:
-        sta     Z17
-L4129:
-  .ifdef AIM65
-        sbc     #$0A
-  .else
-        sbc     #$0E
-  .endif
-        bcs     L4129
-        eor     #$FF
-  .ifdef AIM65
-        sbc     #$08
-  .else
-        sbc     #$0C
-  .endif
-        clc
-        adc     Z17
-        sta     Z18
-.endif
 L4136:
 
         ldx     #<RAMSTART2
@@ -213,15 +140,14 @@ L4136:
 QT_MEMORY_SIZE:
         .byte   "MEMORY SIZE"
         .byte   0
-  .endif
 QT_BYTES_FREE:
         .byte   " BYTES FREE"
         .byte   CR, LF, 0
 QT_BASIC:
         .byte CR, LF
-        .byte   "         -=[ CERBERUS BASIC ]=-"
+        .byte   "     -=[ CERBERUS W65C02S BASIC ]=-"
         .byte   CR, LF, CR, LF
-        .byte   "       BASED ON MICROSOFT BASIC V2"
+        .byte   "       BASED ON MICROSOFT BASIC 2"
         .byte  CR, LF, CR, LF
         .byte "       64K SYSTEM "
         .byte 0

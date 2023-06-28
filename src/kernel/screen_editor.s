@@ -1,11 +1,11 @@
-;; This file contains very simple screen editor
+;; This file contains very simple screen editor for BASIC
 
 ;; Entry point for screen editor
 ;; As result you'll got filled INPUTBUFFER
 screen_editor:
     jmp @store_line_start
 @loop:
-    jsr MONRDKEY
+    jsr editor_rdkey
     
     cmp #$0D
     beq send_line
@@ -27,6 +27,8 @@ screen_editor:
 
 ;; Return key pressed - we should copy line from screen to inputbuffer
 send_line:
+    jsr erase_cursor ;; To prevent inverted symbols after editing line
+
     lda LINE
     cmp LINE_START ;; If address of line start did equal - two lines 
     beq @one_line
@@ -51,16 +53,14 @@ send_line:
 ;; When we found first significant symbol(not space) - stop here
 @len_found:
     tya     ;; A - contains command lenght 
-    ina
+    ina     ;; Last character won't be lost
 @start_copy:
     ldy #0
     ldx #0
 @loop:
     pha
-@line_load:
-    lda (LINE_START), y
-    and #$7f
-    sta INPUTBUFFER, x
+    lda (LINE_START), y     ;; Copy byte by byte from screen to 
+    sta INPUTBUFFER, x      ;; INPUTBUFFER
     iny
     inx
     pla
@@ -69,3 +69,30 @@ send_line:
 @exit:
     jmp L29B9
 
+MONRDKEY:
+;; Read key for editor
+editor_rdkey:
+    jsr put_cursor
+@loop:
+    lda MAILFLAG
+    beq @loop
+
+    stz MAILFLAG
+    lda MAILBOX
+;; Replacements
+    CMP     #$0A
+    bne     @del
+    LDA     #$0D
+    jmp     @noout
+@del:
+    CMP     #KBD_BACK
+    bne     @exit
+    LDA     #$08
+    jmp     @exit
+@exit:
+  cmp #$0D
+  beq @noout
+  ;; Echo
+  jsr MONCOUT
+@noout:
+  rts

@@ -28,18 +28,34 @@ Reset:
 
   jsr clear_screen
   stz MAILFLAG
-  
-  JMP APP_START
+;; Install our font
+copy_font:
+  stz 0
+  lda #>FRAM
+  sta 1
 
-ISCNTC:
-  lda MAILBOX
-  cmp #$6 
-  bne do_nothing
-  stz MAILFLAG
-  jmp STOP
-do_nothing:
-	CLC		; Carry clear if control C not pressed
-	RTS
+  stz 2
+  lda #>RAMSTART2
+  sta 3
+  
+  lda #8
+@loop:
+  pha
+  lda #0
+  ldy #0
+@copyblock:
+  lda (2), y
+  sta (0), y
+  iny
+  bne @copyblock
+  
+  inc 1
+  inc 3
+  pla 
+  dea 
+  bne @loop
+
+  JMP APP_START
 
 ; Interrupts routines
 IRQ_vec:

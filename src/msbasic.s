@@ -35,3 +35,4 @@
     
 .segment "RAMSTART2"
 RAMSTART2:
+    .incbin "../font/capitan.bin"

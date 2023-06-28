@@ -91,30 +91,10 @@ LE878:
 
 
 
-.ifndef KBD
 L29B9:
-  .ifdef CBM2
-        lda     #$00
-        sta     INPUTBUFFER,x
+        stz     INPUTBUFFER,x
         ldx     #<(INPUTBUFFER-1)
         ldy     #>(INPUTBUFFER-1)
-  .else
-    .ifndef APPLE
-        ldy     #$00
-        sty     INPUTBUFFER,x
-        ldx     #LINNUM+1
-    .endif
-    .if .def(MICROTAN) || .def(SYM1)
-        bne     CRDO2
-	.endif
-  .endif
-  .ifdef CONFIG_FILE
-        lda     CURDVC
-        bne     L29DD
-  .endif
-.endif
-
-
 CRDO:
 .if .def(CONFIG_PRINTNULLS) && .def(CONFIG_FILE)
         lda     CURDVC
