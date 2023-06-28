@@ -24,7 +24,17 @@ Letters will be always uppercased.
 
  * CLS - clear screen
 
-## More Information
+## Included font
+
+I've designed font for usage with Cerberus basic:
+
+![font](doc/capitan.png)
+
+It have same license that my code - 2-clause BSD. 
+
+Feel free to use it in your projects.
+
+## More Information about Microsoft Basic
 
 More information on the differences of the respective versions can be found on this blog entry: [Create your own Version of Microsoft BASIC for 6502](http://www.pagetable.com/?p=46).
 
