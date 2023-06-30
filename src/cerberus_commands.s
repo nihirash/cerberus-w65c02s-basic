@@ -50,6 +50,17 @@ LOCATE:
 @error:
         jmp IQERR
 
+POS:
+        jsr CONINT
+        txa
+        beq @y
+        ldy COL
+        jmp @result
+@y:
+        ldy ROW
+@result:
+        jmp SNGFLT
+
 ;; TODO: Implement
 LOAD:
 	RTS

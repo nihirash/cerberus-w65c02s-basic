@@ -32,6 +32,13 @@ Letters will be always uppercased.
     20 LOCATE 10,10
     30 PRINT "Hello!"
  ```
+ * Updated command **POS(n)**, when N is zero will be returned current ROW else COL. Example:
+ ```
+    10 LOCATE 13, 11
+    20 x = POS(1) : y = POS(0)
+    30 CLS
+    50 PRINT "X=";STR$(x);" Y=";STR$(y)
+ ```
 
 ## Development
 
