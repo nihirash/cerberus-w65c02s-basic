@@ -69,7 +69,31 @@ send_line:
 @exit:
     jmp L29B9
 
-MONRDKEY:
+line_rdkey:
+    jsr put_cursor
+@loop:
+    lda MAILFLAG
+    beq @loop
+
+    stz MAILFLAG
+
+    lda MAILBOX
+    
+    cmp #KBD_UP
+    beq @loop
+
+    cmp #KBD_DN
+    beq @loop
+
+    cmp #KBD_RT
+    beq @loop
+
+    cmp #KBD_LF
+    beq @loop
+    
+    jmp rdkey_out
+
+
 ;; Read key for editor
 editor_rdkey:
     jsr put_cursor
@@ -79,6 +103,7 @@ editor_rdkey:
 
     stz MAILFLAG
     lda MAILBOX
+rdkey_out:
 ;; Replacements
     CMP     #$0A
     bne     @del

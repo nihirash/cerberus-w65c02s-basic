@@ -1,5 +1,7 @@
 # Cerberus W65C02S Basic
 
+![Basic screenshot](docs/basic.gif)
+
 Based on Microsoft Basic for 6502. Forked from [this repo](http://github.com/mist64/msbasic).
 
 It's early in progress and not tested on real hardware. 

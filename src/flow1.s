@@ -82,41 +82,22 @@ NEWSTT:
         jsr     ISCNTC
         lda     TXTPTR
         ldy     TXTPTR+1
-.if .def(CONFIG_NO_INPUTBUFFER_ZP) && .def(CONFIG_2)
-        cpy     #>INPUTBUFFER
-  .ifdef CBM2
-        nop
-  .endif
-        beq     LC6D4
-.else
-; BUG on AppleSoft I,
-; fixed differently on AppleSoft II (ldx/inx)
-        beq     L2683
-.endif
+
         sta     OLDTEXT
         sty     OLDTEXT+1
 LC6D4:
         ldy     #$00
 L2683:
         lda     (TXTPTR),y
-.ifndef CONFIG_11
-        beq     LA5DC	; old: 1 cycle more on generic case
-        cmp     #$3A
-        beq     NEWSTT2
-SYNERR1:
-        jmp     SYNERR
-LA5DC:
-.else
+
         bne     COLON; new: 1 cycle more on ":" case
-.endif
+
         ldy     #$02
         lda     (TXTPTR),y
         clc
-.ifdef CONFIG_2
+
         jeq     L2701
-.else
-        beq     L2701
-.endif
+
         iny
         lda     (TXTPTR),y
         sta     CURLIN
@@ -140,27 +121,12 @@ NEWSTT2:
 ; CARRY IS SET
 ; ----------------------------------------------------------------------------
 EXECUTE_STATEMENT:
-.ifndef CONFIG_11A
-        beq     RET1
-.else
         beq     RET2
-.endif
-.ifndef CONFIG_11
-        sec
-.endif
 EXECUTE_STATEMENT1:
         sbc     #$80
-.ifndef CONFIG_11
-        jcc     LET	; old: 1 cycle more on instr.
-.else
-        bcc     LET1; new: 1 cycle more on assignment
-.endif
+        bcc     LET1 
         cmp     #NUM_TOKENS
-.ifdef CONFIG_2
         bcs     LC721
-.else
-        bcs     SYNERR1
-.endif
         asl     a
         tay
         lda     TOKEN_ADDRESS_TABLE+1,y
@@ -168,19 +134,15 @@ EXECUTE_STATEMENT1:
         lda     TOKEN_ADDRESS_TABLE,y
         pha
         jmp     CHRGET
-
-.ifdef CONFIG_11
 LET1:
-        jmp     LET
+        jmp LET
 
 COLON:
         cmp     #$3A
         beq     NEWSTT2
 SYNERR1:
         jmp     SYNERR
-.endif
 
-.ifdef CONFIG_2; GO TO
 LC721:
         cmp     #TOKEN_GO-$80
         bne     SYNERR1
@@ -188,7 +150,6 @@ LC721:
         lda     #TOKEN_TO
         jsr     SYNCHR
         jmp     GOTO
-.endif
 
 ; ----------------------------------------------------------------------------
 ; "RESTORE" STATEMENT
@@ -222,13 +183,7 @@ END2:
         bne     RET1
         lda     TXTPTR
         ldy     TXTPTR+1
-.if .def(CONFIG_NO_INPUTBUFFER_ZP) && .def(CONFIG_2)
-; BUG on AppleSoft I
-; fix exists on AppleSoft II
-; TXTPTR+1 will always be > 0
-        ldx     CURLIN+1
-        inx
-.endif
+
         beq     END4
         sta     OLDTEXT
         sty     OLDTEXT+1
@@ -243,19 +198,14 @@ END4:
 L2701:
         lda     #<QT_BREAK
         ldy     #>QT_BREAK
-.ifndef KBD
+
         ldx     #$00
         stx     Z14
-.endif
+
         bcc     L270E
         jmp     PRINT_ERROR_LINNUM
 L270E:
         jmp     RESTART
-.ifdef KBD
-LE664:
-        tay
-        jmp     SNGFLT
-.endif
 
 ; ----------------------------------------------------------------------------
 ; "CONT" COMMAND
@@ -276,48 +226,3 @@ L271C:
         sty     CURLIN+1
 RET1:
         rts
-
-.ifdef KBD
-PRT:
-        jsr     GETBYT
-        txa
-; not ROR bug safe
-        ror     a
-        ror     a
-        ror     a
-        sta     $8F
-        rts
-
-LE68C:
-        ldy     #$12
-LE68E:
-        lda     LEA30,y
-        sta     $03A2,y
-        dey
-        bpl     LE68E
-        rts
-.endif
-
-.ifndef AIM65
-.if .def(CONFIG_NULL) || .def(CONFIG_PRINTNULLS)
-; CBM1 has the keyword removed,
-; but the code is still here
-NULL:
-        jsr     GETBYT
-        bne     RET1
-        inx
-        cpx     #NULL_MAX
-        bcs     L2739
-        dex
-        stx     Z15
-L2738:
-        rts
-L2739:
-        jmp     IQERR
-.endif
-.ifndef CONFIG_11A
-CLEAR:
-        bne     RET1
-        jmp     CLEARC
-.endif
-.endif

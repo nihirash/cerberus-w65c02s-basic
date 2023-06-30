@@ -49,11 +49,9 @@ ERRDIR:
         inx
         bne     RTS9
         ldx     #ERR_ILLDIR
-.ifdef CONFIG_2
         .byte   $2C
 LD288:
         ldx     #ERR_UNDEFFN
-.endif
 L31AF:
         jmp     ERROR
 DEF:
@@ -67,9 +65,9 @@ DEF:
         jsr     CHKCLS
         lda     #TOKEN_EQUAL
         jsr     SYNCHR
-.ifndef CONFIG_SMALL
+
         pha
-.endif
+
         lda     VARPNT+1
         pha
         lda     VARPNT
@@ -102,24 +100,20 @@ L31F3:
         pla
         sta     FNCNAM+1
         ldy     #$02
-.ifndef CONFIG_2
-        ldx     #ERR_UNDEFFN
-.endif
+
         lda     (FNCNAM),y
-.ifndef CONFIG_2
-        beq     L31AF
-.endif
+
         sta     VARPNT
         tax
         iny
         lda     (FNCNAM),y
-.ifdef CONFIG_2
+
         beq     LD288
-.endif
+
         sta     VARPNT+1
-.ifndef CONFIG_SMALL
+
         iny
-.endif
+
 L3219:
         lda     (VARPNT),y
         pha
@@ -166,9 +160,9 @@ L3250:
         pla
         iny
         sta     (FNCNAM),y
-.ifndef CONFIG_SMALL
+
         pla
         iny
         sta     (FNCNAM),y
-.endif
+        
         rts

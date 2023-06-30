@@ -1,13 +1,6 @@
 ; configuration
 CONFIG_2C := 1
 
-CONFIG_CBM_ALL := 1
-CONFIG_FIX_INIT_COPY := 1
-CONFIG_DATAFLG := 1
-CONFIG_EASTER_EGG := 1
-CONFIG_NO_CR := 1; terminal doesn't need explicit CRs on line ends
-CONFIG_PEEK_SAVE_LINNUM := 1
-CONFIG_SCRTCH_ORDER := 2
 
 ; zero page
 ZP_START1 = $00
@@ -34,7 +27,7 @@ WIDTH2			:= 70
 ENTROPY = $F821
 
 ; monitor functions
-;MONRDKEY        := read_char_upper_echo
+MONRDKEY        := line_rdkey
 MONCOUT         := putc
 ;CHKIN           := do_nothing
 ;CHKOUT          := do_nothing

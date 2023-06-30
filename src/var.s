@@ -42,9 +42,9 @@ SYNERR3:
 NAMOK:
         ldx     #$00
         stx     VALTYP
-.ifndef CONFIG_SMALL
+
         stx     VALTYP+1
-.endif
+
         jsr     CHRGET
         bcc     L2ECD
         jsr     ISLETC
@@ -58,14 +58,11 @@ L2ECE:
         bcs     L2ECE
 L2ED8:
         cmp     #$24
-.ifdef CONFIG_SMALL
-        bne     L2EF9
-.else
         bne     L2EE2
-.endif
+
         lda     #$FF
         sta     VALTYP
-.ifndef CONFIG_SMALL
+
         bne     L2EF2
 L2EE2:
         cmp     #$25
@@ -77,7 +74,7 @@ L2EE2:
         ora     VARNAM
         sta     VARNAM
 L2EF2:
-.endif
+
         txa
         ora     #$80
         tax
@@ -143,22 +140,12 @@ NAMENOTFOUND:
         pha
         cmp     #<FRM_VARIABLE_CALL
         bne     MAKENEWVARIABLE
-.ifdef CONFIG_SAFE_NAMENOTFOUND
-        tsx
-        lda     STACK+2,x
-        cmp     #>FRM_VARIABLE_CALL
-        bne     MAKENEWVARIABLE
-.endif
 LD015:
         lda     #<C_ZERO
         ldy     #>C_ZERO
         rts
 
 ; ----------------------------------------------------------------------------
-.ifndef CONFIG_2
-C_ZERO:
-        .byte   $00,$00
-.endif
 
 ; ----------------------------------------------------------------------------
 ; MAKE A NEW SIMPLE VARIABLE
@@ -167,7 +154,6 @@ C_ZERO:
 ; ENTER 7-BYTE VARIABLE DATA IN THE HOLE
 ; ----------------------------------------------------------------------------
 MAKENEWVARIABLE:
-.ifdef CONFIG_CBM_ALL
         lda     VARNAM
         ldy     VARNAM+1
         cmp     #$54
@@ -184,7 +170,6 @@ LD02F:
         cpy     #$54
         beq     LD02C
 LD037:
-.endif
         lda     ARYTAB
         ldy     ARYTAB+1
         sta     LOWTR
@@ -221,10 +206,10 @@ L2F68:
         sta     (LOWTR),y
         iny
         sta     (LOWTR),y
-.ifndef CONFIG_SMALL
+
         iny
         sta     (LOWTR),y
-.endif
+
 
 ; ----------------------------------------------------------------------------
 ; PUT ADDRESS OF VALUE OF VARIABLE IN VARPNT AND Y,A

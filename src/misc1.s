@@ -60,10 +60,10 @@ LET:
         sty     FORPNT+1
         lda     #TOKEN_EQUAL
         jsr     SYNCHR
-.ifndef CONFIG_SMALL
+
         lda     VALTYP+1
         pha
-.endif
+
         lda     VALTYP
         pha
         jsr     FRMEVL
@@ -71,7 +71,7 @@ LET:
         rol     a
         jsr     CHKVAL
         bne     LETSTRING
-.ifndef CONFIG_SMALL
+
         pla
 LET2:
         bpl     L2923
@@ -85,36 +85,28 @@ LET2:
         sta     (FORPNT),y
         rts
 L2923:
-.endif
+
 
 ; ----------------------------------------------------------------------------
 ; REAL VARIABLE = EXPRESSION
 ; ----------------------------------------------------------------------------
         jmp     SETFOR
 LETSTRING:
-.ifndef CONFIG_SMALL
         pla
-.endif
 
 ; ----------------------------------------------------------------------------
 ; INSTALL STRING, DESCRIPTOR ADDRESS IS AT FAC+3,4
 ; ----------------------------------------------------------------------------
 PUTSTR:
-.ifdef CONFIG_CBM_ALL
         ldy     FORPNT+1
-  .ifdef CBM1
-        cpy     #$D0	; TI$
-  .else
         cpy     #$DE
-  .endif
+
         bne     LC92B
         jsr     FREFAC
         cmp     #$06
-  .ifdef CBM2
+
         bne     IQERR1
-  .else
-        jne     IQERR
-  .endif
+
         ldy     #$00
         sty     FAC
         sty     FACSIGN
@@ -157,7 +149,6 @@ LC926:
         sbc     #$2F
         jmp     ADDACC
 LC92B:
-.endif
         ldy     #$02
         lda     (FAC_LAST-1),y
         cmp     FRETOP+1
@@ -205,14 +196,6 @@ L2963:
         sta     (FORPNT),y
 RET5:
         rts
-.ifdef AIM65
-LB89D:
-        cmp     #$21
-        bne     RET5
-        lda     #$80
-        sta     PRIFLG
-        jmp     CHRGET
-.endif
 
 .ifdef CONFIG_FILE
 PRINTH:
@@ -230,4 +213,3 @@ LC98F:
         plp
         jmp     PRINT
 .endif
-
