@@ -90,7 +90,7 @@ line_rdkey:
 
     cmp #KBD_LF
     beq @loop
-    
+
     jmp rdkey_out
 
 

@@ -118,6 +118,47 @@ put_cursor:
   pla
   rts
 
+;; Set cursor position A, X
+gotoxy:
+  cmp #MAX_ROW
+  bcc @cont1
+  rts
+@cont1:
+  cpx #MAX_COL
+  bcc @cont2
+  rts
+@cont2:
+  phx
+  pha
+
+  lda #<VRAM
+  sta LINE
+  lda #>VRAM
+  sta LINE+1
+  stz ROW
+  
+  pla
+  beq @x
+@yloop:
+  pha
+  
+  clc
+  lda LINE
+  adc #MAX_COL
+  sta LINE
+  lda LINE+1
+  adc #0
+  sta LINE+1
+
+  inc ROW
+
+  pla
+  dea
+  bne @yloop
+@x:
+  pla
+  sta COL
+  rts
 
 clear_screen:
   pha

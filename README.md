@@ -6,12 +6,11 @@ Based on Microsoft Basic for 6502. Forked from [this repo](http://github.com/mis
 
 It's early in progress and not tested on real hardware. 
 
-I'm cleaning up sources from useless branches of conditional build and making it usable on
-Cerebrus 2080 and Cerebrus 2100 computers.
+This sources tree targets only to Cerberus 2100(and possibly 2080) computers. 
 
 ## Extensions
 
- * KEY$(n) function - reads key if zero - non blocking. For example
+ * **KEY$(n)** function - reads key if zero - non blocking. For example
 ```
     10 A$=KEY$(0)
     20 IF A$="" THEN GOTO 10
@@ -24,7 +23,21 @@ or
 
 Letters will be always uppercased.
 
- * CLS - clear screen
+ * **CLS** - clear screen
+
+ * **LOCATE <ROW>, <COL>** - move cursor to specified point. Example:
+
+ ```
+    10 CLS
+    20 LOCATE 10,10
+    30 PRINT "Hello!"
+ ```
+
+## Development
+
+[CC65 compiler suite](https://cc65.github.io) is required.
+
+`make.sh` build script will make everything that required for building version. 
 
 ## Included font
 

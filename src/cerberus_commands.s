@@ -35,6 +35,21 @@ VER:
         ldy     #>commit
         jmp     GOSTROUT2
 
+;; LOCATE <ROW>, <COL>
+LOCATE:
+        jsr GTNUM
+        lda LINNUM
+        
+        cmp #MAX_ROW
+        bcs @error
+
+        cpx #MAX_COL
+        bcs @error
+
+        jmp gotoxy
+@error:
+        jmp IQERR
+
 ;; TODO: Implement
 LOAD:
 	RTS

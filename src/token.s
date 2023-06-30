@@ -34,6 +34,7 @@
 		keyword_rts "CLEAR", CLEAR
 		keyword_rts "CLS", clear_screen
 		keyword_rts "VER", VER
+		keyword_rts "LOCATE", LOCATE
 .ifdef CONFIG_FILE
 		keyword_rts "CMD", CMD
 		keyword_rts "SYS", SYS
