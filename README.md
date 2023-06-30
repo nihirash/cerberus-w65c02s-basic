@@ -25,7 +25,7 @@ Letters will be always uppercased.
 
  * **CLS** - clear screen
 
- * **LOCATE <ROW>, <COL>** - move cursor to specified point. Example:
+ * **LOCATE ROW, COL** - move cursor to specified point. Example:
 
  ```
     10 CLS
