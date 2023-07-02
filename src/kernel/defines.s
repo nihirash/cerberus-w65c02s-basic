@@ -13,6 +13,9 @@ MAX_ROW = 30
 MAX_COL = 40
 SPACE   = ' '
 
+LGR_ROWS = 60
+LGR_COLS = 80
+
 KBD_RET  = $0D  ; Return
 KBD_BACK = 127  ; Backspace
 

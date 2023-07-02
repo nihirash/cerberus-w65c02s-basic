@@ -1,3 +1,47 @@
+lines_table:
+  .word $f800 ; 0
+  .word $f828 ; 1
+  .word $f850 ; 2
+  .word $f878 ; 3
+  .word $f8a0 ; 4
+  .word $f8c8 ; 5
+  .word $f8f0 ; 6
+  .word $f918 ; 7
+  .word $f940 ; 8 
+  .word $f968 ; 9 
+  .word $f990 ; 10
+  .word $f9b8 ; 11
+  .word $f9e0 ; 12
+  .word $fa08 ; 13
+  .word $fa30 ; 14
+  .word $fa58 ; 15
+  .word $fa80 ; 16
+  .word $faa8 ; 17
+  .word $fad0 ; 18
+  .word $faf8 ; 19 
+  .word $fb20 ; 20
+  .word $fb48 ; 21
+  .word $fb70 ; 22
+  .word $fb98 ; 23
+  .word $fbc0 ; 24
+  .word $fbe8 ; 25
+  .word $fc10 ; 26
+  .word $fc38 ; 27
+  .word $fc60 ; 28
+  .word $fc88 ; 29
+
+; A - line number
+; AX - address of line start
+get_line_address:
+  phy
+  clc
+  rol ; * 2
+  tay ; Y is offset in table
+  ldx lines_table+1, y
+  lda lines_table, y
+  ply
+  rts
+
 putc:
   phy
   pha
@@ -131,31 +175,12 @@ gotoxy:
   phx
   pha
 
-  lda #<VRAM
-  sta LINE
-  lda #>VRAM
-  sta LINE+1
-  stz ROW
-  
   pla
-  beq @x
-@yloop:
-  pha
-  
-  clc
-  lda LINE
-  adc #MAX_COL
+  sta ROW
+  jsr get_line_address
   sta LINE
-  lda LINE+1
-  adc #0
-  sta LINE+1
+  stx LINE + 1
 
-  inc ROW
-
-  pla
-  dea
-  bne @yloop
-@x:
   pla
   sta COL
   rts

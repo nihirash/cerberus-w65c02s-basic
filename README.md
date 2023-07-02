@@ -10,6 +10,8 @@ This sources tree targets only to Cerberus 2100(and possibly 2080) computers.
 
 ## Extensions
 
+### Terminal extensions
+
  * **KEY$(n)** function - reads key if zero - non blocking. For example
 ```
     10 A$=KEY$(0)
@@ -25,20 +27,26 @@ Letters will be always uppercased.
 
  * **CLS** - clear screen
 
- * **LOCATE ROW, COL** - move cursor to specified point. Example:
+ * **LOCATE COL, ROW** - move cursor to specified point. Example:
 
  ```
     10 CLS
     20 LOCATE 10,10
     30 PRINT "Hello!"
  ```
- * Updated command **POS(n)**, when N is zero will be returned current ROW else COL. Example:
+ * Updated command **POS(n)**, when N is zero will be returned current COL else ROW. Example:
  ```
     10 LOCATE 13, 11
     20 x = POS(1) : y = POS(0)
     30 CLS
     50 PRINT "X=";STR$(x);" Y=";STR$(y)
  ```
+
+### Low resolution graphics
+
+ * **PSET X, Y** - draw low resolution graphics point.
+
+ * **LINE x1,y1,x2,y2** - draw line connecting two specified points
 
 ## Development
 

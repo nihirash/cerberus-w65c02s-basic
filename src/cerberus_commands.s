@@ -35,31 +35,86 @@ VER:
         ldy     #>commit
         jmp     GOSTROUT2
 
-;; LOCATE <ROW>, <COL>
+;; LOCATE <COL>, <ROW>
 LOCATE:
-        jsr GTNUM
-        lda LINNUM
+        jsr get_two_bytes
         
-        cmp #MAX_ROW
-        bcs @error
+        cmp #MAX_COL
+        bcs iq_error
 
-        cpx #MAX_COL
-        bcs @error
+        cpx #MAX_ROW
+        bcs iq_error
 
         jmp gotoxy
-@error:
+iq_error:
         jmp IQERR
 
 POS:
         jsr CONINT
         txa
-        beq @y
+        bne @y
         ldy COL
         jmp @result
 @y:
         ldy ROW
 @result:
         jmp SNGFLT
+
+;; PSET x,y
+PSET:
+        jsr get_two_bytes
+
+        cmp #LGR_ROWS
+        bcs iq_error
+
+        cpx #LGR_COLS
+        bcs iq_error
+
+        jmp plot
+
+;; LINE x1,y1,x2,y2
+DRAW_LINE:
+        jsr GETBYT
+        stx line_x1
+
+        cpx #LGR_COLS
+        bcs iq_error
+        
+        jsr CHKCOM
+        
+        jsr GETBYT
+        stx line_y1
+
+        cpx #LGR_ROWS
+        bcs iq_error
+
+        jsr CHKCOM
+
+        jsr GETBYT
+        stx line_x2
+
+        cpx #LGR_COLS
+        bcs iq_error
+        
+        jsr CHKCOM
+        
+        jsr GETBYT
+        stx line_y2
+        
+        cpx #LGR_ROWS
+        bcs iq_error
+
+        jmp draw_line
+
+
+get_two_bytes:
+        jsr GETBYT
+        stx LINNUM
+        jsr CHKCOM
+        jsr GETBYT
+        txa
+        ldx LINNUM
+        rts
 
 ;; TODO: Implement
 LOAD:

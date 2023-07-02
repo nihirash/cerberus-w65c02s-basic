@@ -6,3 +6,4 @@
 .include "screen.s"
 .include "keyboard.s"
 .include "screen_editor.s"
+.include "lrg/lrg.s"
