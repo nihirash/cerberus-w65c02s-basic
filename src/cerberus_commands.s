@@ -116,6 +116,15 @@ get_two_bytes:
         ldx LINNUM
         rts
 
+;; TILE n - draws tile on current cursor position
+;; A lot faster than PRINT CHR$(n);
+TILE:
+        jsr GETBYT
+        cpx #udg_count
+        bcs iq_error
+        txa
+        jmp draw_tile
+
 ;; TODO: Implement
 LOAD:
 	RTS

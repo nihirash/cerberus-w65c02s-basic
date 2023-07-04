@@ -37,13 +37,13 @@
 		keyword_rts "LOCATE", LOCATE
 		keyword_rts	"PSET", PSET
 		keyword_rts "LINE", DRAW_LINE
+		keyword_rts	"TILE", TILE
 .ifdef CONFIG_FILE
 		keyword_rts "CMD", CMD
 		keyword_rts "SYS", SYS
 		keyword_rts "OPEN", OPEN
 		keyword_rts "CLOSE", CLOSE
 .endif
-		keyword_rts "GET", GET
 		keyword_rts "NEW", NEW
 
 		count_tokens

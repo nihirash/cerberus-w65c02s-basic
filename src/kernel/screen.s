@@ -42,6 +42,39 @@ get_line_address:
   ply
   rts
 
+;; Quick put char - without control codes
+qput_c:
+  phy
+  ldy COL
+  sta (LINE),y
+  inc COL
+  cpy #MAX_COL-1
+  beq @return
+  ply
+  rts
+@return:
+  stz COL
+  lda ROW
+  cmp #MAX_ROW-1
+  bne @not_last_row
+  jsr scroll_up
+  ply
+  rts
+@not_last_row:
+    ; LINE<-LINE+MAX_COL
+  clc
+  lda LINE
+  adc #MAX_COL
+  sta LINE
+  lda LINE+1
+  adc #0
+  sta LINE+1
+  ; ROW++
+  inc ROW  
+  ply
+  rts
+
+
 putc:
   phy
   pha

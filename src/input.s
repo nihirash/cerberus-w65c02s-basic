@@ -40,34 +40,6 @@ LCA8F:
 RTS20:
         rts
 
-; ----------------------------------------------------------------------------
-; "GET" STATEMENT
-; ----------------------------------------------------------------------------
-GET:
-        jsr     ERRDIR
-; CBM: if GET#, then switch input
-.ifdef CONFIG_FILE
-        cmp     #'#'
-        bne     LCAB6
-        jsr     CHRGET
-        jsr     GETBYT
-        lda     #','
-        jsr     SYNCHR
-        jsr     CHKIN
-        stx     CURDVC
-LCAB6:
-.endif
-        ldx     #<(INPUTBUFFER+1)
-        ldy     #>(INPUTBUFFER+1)
-        sty     INPUTBUFFER+1
-        lda     #$40
-        jsr     PROCESS_INPUT_LIST
-; CBM: if GET#, then switch input back
-.ifdef CONFIG_FILE
-        ldx     CURDVC
-        bne     LCAD8
-.endif
-        rts
 
 ; ----------------------------------------------------------------------------
 ; "INPUT#" STATEMENT

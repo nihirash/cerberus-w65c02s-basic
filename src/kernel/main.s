@@ -7,3 +7,4 @@
 .include "keyboard.s"
 .include "screen_editor.s"
 .include "lrg/lrg.s"
+.include "udg.s"
