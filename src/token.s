@@ -1,4 +1,4 @@
-		init_token_tables
+		init_token_tables 
 
 		keyword_rts "END", END
 		keyword_rts "FOR", FOR
@@ -32,12 +32,9 @@
 		keyword_rts "CONT", CONT
 		keyword_rts "LIST", LIST
 		keyword_rts "CLEAR", CLEAR
-		keyword_rts "CLS", clear_screen
 		keyword_rts "VER", VER
 		keyword_rts "LOCATE", LOCATE
-		keyword_rts	"PSET", PSET
-		keyword_rts "LINE", DRAW_LINE
-		keyword_rts	"TILE", TILE
+
 .ifdef CONFIG_FILE
 		keyword_rts "CMD", CMD
 		keyword_rts "SYS", SYS
@@ -46,6 +43,11 @@
 .endif
 		keyword_rts "NEW", NEW
 
+		keyword_rts "CLS", clear_screen
+		keyword_rts "PSET", PSET
+		keyword_rts "LINE", DRAW_LINE
+		keyword_rts "TILE", TILE
+		
 		count_tokens
 
 		keyword	"TAB(", TOKEN_TAB
