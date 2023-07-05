@@ -12,6 +12,9 @@ Z96				:= $0096
 TXPSV			:= LASTOP
 USR				:= GORESTART ; XXX
 
+;; Extra tokens table flag
+EXTRA_TABLE_FLAG := $FCB0
+
 RAMEND      := $EFFF
 
 ; constants
@@ -27,8 +30,6 @@ ENTROPY = $F821
 MONRDKEY        := line_rdkey
 MONCOUT         := putc
 CLALL           := do_nothing
-VERIFY          := do_nothing
-
 
 BYTES_FP		:= 5
 BYTES_PER_ELEMENT := BYTES_FP

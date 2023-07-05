@@ -54,7 +54,6 @@ RESTART:
         ldy     #>QT_OK
         jsr     STROUT
 L2351:
-        ;jsr     INLIN
         jsr     screen_editor
              
         stx     TXTPTR
@@ -238,16 +237,26 @@ L248C:
         ldy     #$00
         sty     EOLPNTR
         dey
+        sty     EXTRA_TABLE_FLAG
         stx     TXTPTR
         dex
 L2496:
-        iny
+        jsr     increment_token_list
 L2497:
         inx
 L2498:
         jsr     GET_UPPER
+        
+        bit EXTRA_TABLE_FLAG
+        bmi @extra
+
+        sec 
+        sbc TOKEN_NAME_TABLE, y
+        jmp @notuse
+@extra:
         sec
-        sbc     TOKEN_NAME_TABLE,y
+        sbc TOKEN_NAME_TABLE+$100, y 
+@notuse:
         beq     L2496
         cmp     #$80
         bne     L24D7
@@ -296,10 +305,10 @@ L24D7:
         ldx     TXTPTR
         inc     EOLPNTR
 L24DB:
-        iny
-        lda     MATHTBL+28+1,y
+        jsr     increment_token_list
+        jsr     read_token_prev_byte
         bpl     L24DB
-        lda     TOKEN_NAME_TABLE,y
+        jsr     read_token_byte
         bne     L2498
         lda     INPUTBUFFERX,x
         bpl     L24AA
@@ -309,6 +318,51 @@ L24EA:
         lda     #<INPUTBUFFER-1
         sta     TXTPTR
         rts
+
+
+;; Allows use more than two tokens tables
+;; Working instead INY, just swapping flag on overflow
+increment_token_list:
+        iny
+        bne @keep_same
+
+        php
+        pha
+        
+        lda EXTRA_TABLE_FLAG
+        eor #$ff
+        sta EXTRA_TABLE_FLAG
+        nop
+        nop
+        nop
+
+        pla
+        plp
+@keep_same:
+        rts
+
+;; Reads byte from one of the tokens table
+read_token_byte:
+        bit EXTRA_TABLE_FLAG
+        bmi @extra
+
+        lda TOKEN_NAME_TABLE, y
+        rts
+@extra:
+        lda TOKEN_NAME_TABLE+$100, y
+        rts
+
+;; Reads prev. byte from token table
+read_token_prev_byte:
+        bit EXTRA_TABLE_FLAG
+        bmi @extra
+
+        lda TOKEN_NAME_TABLE-1, y
+        rts
+@extra:
+        lda TOKEN_NAME_TABLE+$ff, y
+        rts
+
 
 ; ----------------------------------------------------------------------------
 ; SEARCH FOR LINE
@@ -521,17 +575,18 @@ L25E8:
         tax
         sty     FORPNT
         ldy     #$FF
+        sty     EXTRA_TABLE_FLAG
 L25F2:
         dex
         beq     L25FD
 L25F5:
-        iny
-        lda     TOKEN_NAME_TABLE,y
+        jsr     increment_token_list
+        jsr     read_token_byte
         bpl     L25F5
         bmi     L25F2
 L25FD:
-        iny
-        lda     TOKEN_NAME_TABLE,y
+        jsr     increment_token_list
+        jsr     read_token_byte
         bmi     L25CA
         jsr     OUTDO
         bne     L25FD	; always
