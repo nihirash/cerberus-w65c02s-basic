@@ -10,15 +10,15 @@ plot:
   clc
   ror
   jsr get_line_address
-  sta LINE_START
-  stx LINE_START + 1
+  sta KERN_PTR
+  stx KERN_PTR + 1
   pla
   pha
   clc
   ror
   tay
   sty lgr_y
-  lda (LINE_START), y
+  lda (KERN_PTR), y
   tax
   and #$7f
   cmp #$08
@@ -35,7 +35,7 @@ plot:
     tay
     lda character_table, y
     ldy lgr_y
-    sta (LINE_START), y
+    sta (KERN_PTR), y
     rts
 @detect_tile:
     ldy #$00

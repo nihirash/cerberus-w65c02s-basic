@@ -3,7 +3,7 @@
 ;; Entry point for screen editor
 ;; As result you'll got filled INPUTBUFFER
 screen_editor:
-    jmp @store_line_start
+    jmp @store_KERN_PTR
 @loop:
     jsr editor_rdkey
     
@@ -11,18 +11,18 @@ screen_editor:
     beq send_line
 
     cmp #KBD_UP
-    beq @store_line_start
+    beq @store_KERN_PTR
 
     cmp #KBD_DN
-    beq @store_line_start
+    beq @store_KERN_PTR
 
     jmp @loop
-@store_line_start:
+@store_KERN_PTR:
     lda LINE
-    sta LINE_START
+    sta KERN_PTR
 
     lda LINE+1
-    sta LINE_START+1
+    sta KERN_PTR+1
     jmp @loop
 
 ;; Return key pressed - we should copy line from screen to inputbuffer
@@ -30,7 +30,7 @@ send_line:
     jsr erase_cursor ;; To prevent inverted symbols after editing line
 
     lda LINE
-    cmp LINE_START ;; If address of line start did equal - two lines 
+    cmp KERN_PTR ;; If address of line start did equal - two lines 
     beq @one_line
 
     lda #79       ;; 2 Lines command
@@ -43,7 +43,7 @@ send_line:
 @get_len:
     tay
 @get_len_loop:
-    lda (LINE_START), y
+    lda (KERN_PTR), y
     cmp #SPACE
     bne @len_found
     dey
@@ -59,7 +59,7 @@ send_line:
     ldx #0
 @loop:
     pha
-    lda (LINE_START), y     ;; Copy byte by byte from screen to 
+    lda (KERN_PTR), y     ;; Copy byte by byte from screen to 
     sta INPUTBUFFER, x      ;; INPUTBUFFER
     iny
     inx

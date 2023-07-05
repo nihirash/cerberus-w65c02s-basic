@@ -2,7 +2,9 @@ LINE = $FE ; and $FF       ; ADDR (2 bytes), store a LINE ADDR
 ROW = LINE - 1 
 COL = ROW - 1
 
-LINE_START = $FA
+KERN_PTR = $FA
+
+UDG_DATA = $FCB1 ; 8 bites long
 
 FRAM = $F000
 VRAM = $F800

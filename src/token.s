@@ -46,8 +46,8 @@
 		keyword_rts "CLS", clear_screen
 		keyword_rts "PSET", PSET
 		keyword_rts "LINE", DRAW_LINE
+		keyword_rts "TILEDEF", DEF_TILE
 		keyword_rts "TILE", TILE
-		
 		count_tokens
 
 		keyword	"TAB(", TOKEN_TAB

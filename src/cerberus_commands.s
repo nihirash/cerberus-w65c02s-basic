@@ -46,9 +46,6 @@ LOCATE:
         bcs iq_error
 
         jmp gotoxy
-iq_error:
-        jmp IQERR
-
 POS:
         jsr CONINT
         txa
@@ -106,6 +103,8 @@ DRAW_LINE:
 
         jmp draw_line
 
+iq_error:
+        jmp IQERR
 
 get_two_bytes:
         jsr GETBYT
@@ -119,11 +118,55 @@ get_two_bytes:
 ;; TILE n - draws tile on current cursor position
 ;; A lot faster than PRINT CHR$(n);
 TILE:
+        jsr get_two_bytes
+        
+        cmp #MAX_ROW
+        bcs iq_error
+
+        cpx #MAX_COL
+        bcs iq_error
+        
+        phx
+        jsr get_line_address
+
+        sta KERN_PTR
+        stx KERN_PTR+1
+
+        jsr CHKCOM
         jsr GETBYT
+        ply
         cpx #udg_count
         bcs iq_error
-        txa
+        
         jmp draw_tile
+
+DEF_TILE:
+        jsr GETBYT
+        cpx #0
+        beq @ro
+        cpx #udg_count
+        phx
+        bcs @err
+        ldy #0
+@loop:
+        phy
+        jsr CHKCOM
+        jsr GETBYT
+        ply
+        txa
+        sta UDG_DATA, y
+        iny
+        cpy #8
+        bne @loop
+        plx
+        jmp def_udg
+@err:
+        plx
+        jmp IQERR
+@ro:
+        ldx #ERR_RO
+        jmp ERROR
+
 
 ;; TODO: Implement
 LOAD:
