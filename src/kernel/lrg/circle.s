@@ -1,9 +1,12 @@
 circle:
     lda circle_r
     bne @c1 ; If not single point continue usual routine
+    ;; R=0 - single point
     lda circle_y
     ldx circle_x
     jmp plot
+
+;; Jesko's method
 @c1:
     stz circle_py
 
@@ -23,24 +26,20 @@ circle:
     sbc circle_px
     sta circle_t2
 
-    lda circle_t2
     bmi @skip
     sta circle_t1
     dec circle_px
 
 @skip:
     lda circle_px
-    sec
-    sbc circle_py
-    bvc @skipeor
-    eor #$80
-@skipeor:
-    bpl @loop
+    cmp circle_py
+    bcs @loop
 
     rts
 
-circle_plots:
 
+;; Plot 8 points for drawing circle
+circle_plots:
 ;; X, Y
     lda circle_x
     clc

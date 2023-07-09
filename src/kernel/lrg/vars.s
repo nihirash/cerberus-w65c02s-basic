@@ -31,8 +31,7 @@ line_d:     .res 1
 circle_x:   .res 1
 circle_y:   .res 1
 circle_r:   .res 1
-
-circle_d:   .res 1
+;; Runtime circle drawing vars
 circle_px:  .res 1
 circle_py:  .res 1
 circle_t1:  .res 1
