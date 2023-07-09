@@ -54,9 +54,11 @@ Letters will be always uppercased.
 
  * **LINE x1,y1,x2,y2** - draw line connecting two specified points
 
+ * **CIRCLE x,y,r** - draw circle with center at X,Y and raduis R
+
 ## Tile graphics
 
-User defined graphics that allows use 44(from 1 to 44, zero is empty tile) tiles on screen.
+User defined graphics that allows use 45(from 1 to 45, zero is empty tile) tiles on screen.
 
  * **TILEDEF n,b1,b2,b3,b4,b5,b6,b7,b8** - define tile with number N and bitmap bytes specified by b1..b8
 

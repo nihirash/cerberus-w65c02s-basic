@@ -29,10 +29,14 @@ screen_editor:
 send_line:
     jsr erase_cursor ;; To prevent inverted symbols after editing line
 
+    lda LINE + 1
+    cmp KERN_PTR + 1
+    bne @multi_lines
+
     lda LINE
     cmp KERN_PTR ;; If address of line start did equal - two lines 
     beq @one_line
-
+@multi_lines:
     lda #79       ;; 2 Lines command
     jmp @get_len
 @one_line:

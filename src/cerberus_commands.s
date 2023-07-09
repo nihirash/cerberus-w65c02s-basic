@@ -154,7 +154,7 @@ DEF_TILE:
         jsr GETBYT
         ply
         txa
-        sta UDG_DATA, y
+        sta udg_data, y
         iny
         cpy #8
         bne @loop
@@ -167,6 +167,28 @@ DEF_TILE:
         ldx #ERR_RO
         jmp ERROR
 
+CIRCLE:
+;; X
+        jsr GETBYT
+        cpx #LGR_COLS
+        bcs iq_error
+        stx circle_x
+;; ,
+        jsr CHKCOM
+;; Y
+        jsr GETBYT
+        cpx #LGR_ROWS
+        bcs iq_error
+        stx circle_y
+;; ,
+        jsr CHKCOM
+;; R
+        jsr GETBYT
+        cpx #LGR_ROWS
+        bcs iq_error
+        stx circle_r
+
+        jmp circle
 
 ;; TODO: Implement
 LOAD:

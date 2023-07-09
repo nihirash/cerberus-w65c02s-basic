@@ -4,7 +4,16 @@
 ; Draw single point on screen
 ; A - Y
 ; X - X
+ret:
+    rts
 plot:
+;; Preventing off screen printing
+  cmp #LGR_ROWS
+  bcs ret
+
+  cpx #LGR_COLS
+  bcs ret
+
   pha
   phx
   clc

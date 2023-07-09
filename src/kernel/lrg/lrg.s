@@ -3,4 +3,5 @@
 
 .include "point.s"
 .include "line.s"
+.include "circle.s"
 .include "vars.s"

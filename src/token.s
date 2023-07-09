@@ -33,7 +33,6 @@
 		keyword_rts "LIST", LIST
 		keyword_rts "CLEAR", CLEAR
 		keyword_rts "VER", VER
-		keyword_rts "LOCATE", LOCATE
 
 .ifdef CONFIG_FILE
 		keyword_rts "CMD", CMD
@@ -44,8 +43,10 @@
 		keyword_rts "NEW", NEW
 
 		keyword_rts "CLS", clear_screen
+		keyword_rts "LOCATE", LOCATE
 		keyword_rts "PSET", PSET
 		keyword_rts "LINE", DRAW_LINE
+		keyword_rts "CIRCLE", CIRCLE
 		keyword_rts "TILEDEF", DEF_TILE
 		keyword_rts "TILE", TILE
 		count_tokens

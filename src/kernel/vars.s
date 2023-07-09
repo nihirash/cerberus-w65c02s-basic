@@ -1,0 +1,3 @@
+.segment "VRAMVARS"
+
+.segment "KERNEL"

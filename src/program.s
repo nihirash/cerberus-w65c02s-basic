@@ -332,10 +332,7 @@ increment_token_list:
         lda EXTRA_TABLE_FLAG
         eor #$ff
         sta EXTRA_TABLE_FLAG
-        nop
-        nop
-        nop
-
+        
         pla
         plp
 @keep_same:

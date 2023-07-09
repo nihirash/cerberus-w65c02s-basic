@@ -110,7 +110,7 @@ putc:
   rts
 @move_right:
     jsr erase_cursor
-    lda COL
+    ldy COL
     jmp @mvy_next
 @move_left:
     jsr erase_cursor
