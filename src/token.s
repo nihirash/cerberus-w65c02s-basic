@@ -49,6 +49,7 @@
 		keyword_rts "CIRCLE", CIRCLE
 		keyword_rts "TILEDEF", DEF_TILE
 		keyword_rts "TILE", TILE
+		keyword_rts "DIRECTORY", dos_dir
 		count_tokens
 
 		keyword	"TAB(", TOKEN_TAB

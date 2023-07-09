@@ -1,0 +1,2 @@
+DOS_DIR_EMPTY:
+    .byte CR, LF, "DIRECTORY EMPTY",CR,LF,0

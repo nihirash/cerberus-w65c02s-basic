@@ -194,6 +194,45 @@ CIRCLE:
 LOAD:
 	RTS
 
-;; TODO: Implement	
+;; SAVE "FILENAME"
 SAVE:
-	RTS
+;; Store data from TXTTAB
+;; Lenght should be (VARTAB)-(TXTTAB)
+        cmp #'"'
+        bne syn_err
+
+        ldy #$FF
+@name:     
+        iny   
+        jsr CHRGET
+        beq @noquota
+        cmp #'"'
+        beq @done
+        sta filename, y
+        
+        bra @name
+@done:
+        jsr CHRGET
+@noquota:       
+        lda #0
+        sta filename, y
+;; Code start address
+        lda TXTTAB
+        sta filestart
+        lda TXTTAB + 1
+        sta filestart + 1
+;; Code lenght
+        lda VARTAB
+        sec
+        sbc TXTTAB
+        sta filesize
+        lda VARTAB + 1
+        sec
+        sbc TXTTAB + 1
+        sta filesize + 1
+;; Save code
+        jmp file_save
+
+;; Syntax error        
+syn_err:
+        jmp SYNERR

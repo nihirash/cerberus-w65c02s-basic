@@ -30,6 +30,45 @@ lines_table:
   .word $fc60 ; 28
   .word $fc88 ; 29
 
+; AX - addr
+kprint:
+  sta KERN_PTR
+  stx KERN_PTR + 1
+kprint_ptr:
+  phy
+  ldy #$ff
+@loop:
+  iny
+  lda (KERN_PTR), Y
+  beq @exit
+  jsr putc
+  bra @loop
+@exit:
+  ply
+  rts
+
+; A - number to print
+print_hex:
+  pha
+  ror
+  ror
+  ror
+  ror
+  jsr @print_half
+  pla
+
+@print_half:
+  and #$0f
+  cmp #$9
+  bcc @num
+  clc
+  adc #'A'-10
+  jmp putc
+@num:
+  clc
+  adc #'0'
+  jmp putc
+
 ; A - line number
 ; AX - address of line start
 get_line_address:

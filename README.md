@@ -8,6 +8,8 @@ It's early in progress and not tested on real hardware.
 
 This sources tree targets only to Cerberus 2100(and possibly 2080) computers. 
 
+I'm standing on shoulders of titans. Some code possibly acquired from public resources.
+
 ## Extensions
 
 ## Core
@@ -15,6 +17,8 @@ This sources tree targets only to Cerberus 2100(and possibly 2080) computers.
  * Tokens name table extended to 512 bytes(was 256 before).
 
  * RAM test will check memory from `RAMSTART2` up to `RAMEND`. 
+
+ * Token table was extended. My article about [this modification](https://nihirash.net/posts/extending-token-table-msbasic6502/)
 
 ### Terminal extensions
 

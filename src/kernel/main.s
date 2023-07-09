@@ -8,4 +8,5 @@
 .include "screen_editor.s"
 .include "lrg/lrg.s"
 .include "tiles/main.s"
+.include "dos/main.s"
 .include "vars.s"
