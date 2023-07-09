@@ -6,39 +6,29 @@ circle:
     jmp plot
 @c1:
     stz circle_py
+
     lda circle_r
     sta circle_px
-    
-    lda #1
-    sec
-    sbc circle_r
-    sta circle_d
 @loop:
     jsr circle_plots
     inc circle_py
 
-    lda circle_d
-    bmi @minus  ;; D < 0
-    ;; Else
-    dec circle_px
+    lda circle_t1
+    clc
+    adc circle_py
+    sta circle_t1
 
-    lda circle_py   ;; Y - X
+    lda circle_t1
     sec
     sbc circle_px
-    asl ;; * 2
-    ina
-    clc 
-    adc circle_d
-    jmp @next
-@minus: ;; D >= 0 
-    lda circle_py
-    asl ; Y*2
-    ina
-    clc
-    adc circle_d
-@next:
-    sta circle_d
-    
+    sta circle_t2
+
+    lda circle_t2
+    bmi @skip
+    sta circle_t1
+    dec circle_px
+
+@skip:
     lda circle_px
     sec
     sbc circle_py

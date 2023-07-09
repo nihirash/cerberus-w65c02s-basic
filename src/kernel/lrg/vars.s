@@ -35,5 +35,7 @@ circle_r:   .res 1
 circle_d:   .res 1
 circle_px:  .res 1
 circle_py:  .res 1
+circle_t1:  .res 1
+circle_t2:  .res 1
 
 .segment "KERNEL"
