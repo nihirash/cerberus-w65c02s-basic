@@ -59,14 +59,14 @@ print_hex:
 
 @print_half:
   and #$0f
-  cmp #$9
+  cmp #$A
   bcc @num
   clc
-  adc #'A'-10
+  adc #'A'-10+$80
   jmp putc
 @num:
   clc
-  adc #'0'
+  adc #'0'+$80
   jmp putc
 
 ; A - line number
@@ -118,7 +118,10 @@ putc:
   phy
   pha
 
-  cmp #13
+  cmp #KBD_BACK
+  beq @bs
+
+  cmp #LF
   beq @curdn
 
   cmp #KBD_DN
@@ -130,7 +133,7 @@ putc:
   cmp #KBD_RT
   beq @move_right
 
-  cmp #10
+  cmp #CR
   beq @home
 
   cmp #KBD_UP
@@ -151,13 +154,23 @@ putc:
     jsr erase_cursor
     ldy COL
     jmp @mvy_next
+@bs:
+  jsr erase_cursor
+  lda COL
+  beq @exit
+  dea
+  sta COL
+  tay
+  lda #' '
+  sta (LINE), y
+  bra @exit
 @move_left:
     jsr erase_cursor
     lda COL
     beq @exit
     dea
     sta COL
-    jmp @exit
+    bra @exit
 @move_up:
     jsr erase_cursor
     lda ROW

@@ -190,9 +190,18 @@ CIRCLE:
 
         jmp circle
 
+;; PAUSE <frames>
+PAUSE:
+        jsr GETBYT
+@loop:
+        wai
+        dex
+        bne @loop
+        rts
+
 ;; TODO: Implement
 LOAD:
-	RTS
+	rts
 
 ;; SAVE "FILENAME"
 SAVE:
@@ -236,3 +245,10 @@ SAVE:
 ;; Syntax error        
 syn_err:
         jmp SYNERR
+
+;; Computer will reboots - no need for anything another
+RESET_CPU:
+        lda #$7F
+        sta DOS_FLAG
+        rts
+        

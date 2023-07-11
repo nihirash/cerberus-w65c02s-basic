@@ -7,6 +7,11 @@ filestart:
 filesize:
     .res 2
 filename:
-    .res 40
+    .res 13
+
+dir_entry:
+    .res 4
+dir_filename:
+    .res 13
 
 .segment "KERNEL"

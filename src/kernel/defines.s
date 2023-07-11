@@ -19,9 +19,9 @@ LGR_COLS = 80
 KBD_RET  = $0D  ; Return
 KBD_BACK = 127  ; Backspace
 
-KBD_UP = 23
-KBD_DN = 19
-KBD_LF = 1
-KBD_RT = 4
+KBD_UP = 11
+KBD_DN = 10
+KBD_LF = 8
+KBD_RT = 21
 
 APP_START = COLD_START

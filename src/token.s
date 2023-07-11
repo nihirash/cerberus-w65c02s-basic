@@ -49,7 +49,9 @@
 		keyword_rts "CIRCLE", CIRCLE
 		keyword_rts "TILEDEF", DEF_TILE
 		keyword_rts "TILE", TILE
-		keyword_rts "DIRECTORY", dos_dir
+		keyword_rts "FILES", dos_dir
+		keyword_rts "PAUSE", PAUSE
+		keyword_rts "RESET", RESET_CPU
 		count_tokens
 
 		keyword	"TAB(", TOKEN_TAB

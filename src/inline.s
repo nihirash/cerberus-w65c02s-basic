@@ -9,9 +9,9 @@ INLIN:
         ldx     #$00
 INLIN2:
         jsr     GETLN
-        cmp     #$08
+        cmp     #KBD_BACK
         beq     INLINBS
-        cmp     #$0D
+        cmp     #CR
         beq     L2453
         sta     INPUTBUFFER,x
         inx

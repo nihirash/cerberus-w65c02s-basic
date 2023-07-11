@@ -53,6 +53,9 @@ RESTART:
         lda     #<QT_OK
         ldy     #>QT_OK
         jsr     STROUT
+        lda     #8
+        jsr     qput_c
+        jsr     CRDO
 L2351:
         jsr     screen_editor
              

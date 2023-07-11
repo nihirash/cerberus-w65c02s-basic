@@ -20,6 +20,14 @@ I'm standing on shoulders of titans. Some code possibly acquired from public res
 
  * Token table was extended. My article about [this modification](https://nihirash.net/posts/extending-token-table-msbasic6502/)
 
+### System extensions
+
+ * **PAUSE n** - pauses execution for n-frames(not more than 256) 
+
+* **RESET** - reboots computer
+
+* **FILES** - lists current directory
+
 ### Terminal extensions
 
  * **KEY$(n)** function - reads key if zero - non blocking. For example

@@ -108,17 +108,6 @@ editor_rdkey:
     stz MAILFLAG
     lda MAILBOX
 rdkey_out:
-;; Replacements
-    CMP     #$0A
-    bne     @del
-    LDA     #$0D
-    jmp     @noout
-@del:
-    CMP     #KBD_BACK
-    bne     @exit
-    LDA     #$08
-    jmp     @exit
-@exit:
   cmp #$0D
   beq @noout
   ;; Echo
