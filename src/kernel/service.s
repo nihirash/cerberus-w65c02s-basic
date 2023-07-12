@@ -28,34 +28,18 @@ Reset:
 
   jsr clear_screen
   stz MAILFLAG
-;; Install our font
-copy_font:
-  stz 0
-  lda #>FRAM
-  sta 1
 
-  stz 2
-  lda #>RAMSTART2
-  sta 3
-  
-  lda #8
-@loop:
-  pha
-  lda #0
-  ldy #0
-@copyblock:
-  lda (2), y
-  sta (0), y
-  iny
-  bne @copyblock
-  
-  inc 1
-  inc 3
-  pla 
-  dea 
-  bne @loop
+  lda #CMD_LOAD
+  ldx #<font_load
+  ldy #>font_load
+  jsr bios_request
 
   JMP APP_START
+
+font_load:
+  .word $F000
+  .word $0000
+  .byte "capitan.fnt",0
 
 ; Interrupts routines
 IRQ_vec:

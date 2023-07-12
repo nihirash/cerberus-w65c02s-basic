@@ -491,7 +491,7 @@ STXTPT:
 ; "LIST" STATEMENT
 ; ----------------------------------------------------------------------------
 LIST:
-
+        stz list_cnt
         bcc     L2581
         beq     L2581
         cmp     #TOKEN_MINUS
@@ -536,6 +536,34 @@ L25C1:
         bcs     L25E5
 ; ---LIST ONE LINE----------------
 L25C3:
+        pha
+        inc list_cnt
+        lda list_cnt
+        cmp #20
+        bne @skip
+
+        stz list_cnt
+        phx 
+        phy
+        lda #<scroll_req
+        ldx #>scroll_req
+        jsr kprint
+        ply
+        plx
+        stz MAILFLAG
+@wait:
+        lda MAILFLAG
+        beq @wait
+
+        phx 
+        phy
+        lda #<scroll_era
+        ldx #>scroll_era
+        jsr kprint
+        ply
+        plx
+@skip:
+        pla
         sty     FORPNT
         jsr     LINPRT
         lda     #$20
@@ -591,3 +619,7 @@ L25FD:
         jsr     OUTDO
         bne     L25FD	; always
 
+scroll_req:
+        .byte "SCROLL?",0
+scroll_era:
+        .byte CR, "       ",CR,0

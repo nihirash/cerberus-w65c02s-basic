@@ -24,9 +24,15 @@ I'm standing on shoulders of titans. Some code possibly acquired from public res
 
  * **PAUSE n** - pauses execution for n-frames(not more than 256) 
 
-* **RESET** - reboots computer
+ * **RESET** - reboots computer
 
-* **FILES** - lists current directory
+ * **FILES** - lists current directory
+
+ * **LOAD "filename"** - load program from disk
+
+ * **SAVE "filename"** - stores program to disk
+
+ * **KILL "filename"** - deletes file on disk
 
 ### Terminal extensions
 
