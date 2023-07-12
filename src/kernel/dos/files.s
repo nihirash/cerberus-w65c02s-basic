@@ -1,4 +1,24 @@
+;; Deletes file
+file_kill:
+    lda #CMD_DEL
+    ldx #<filename
+    ldy #>filename
+    jsr bios_request
+    jmp dos_print_error
 
+file_load:
+    lda #CMD_LOAD
+    ldx #<filestart
+    ldy #>filestart
+    jsr bios_request
+    lda DOS_FLAG
+
+    beq @ok
+    jmp dos_print_error
+@ok:
+    rts
+
+;; Stores file on disk
 file_save:
     lda #CMD_SAVE
     ldx #<filestart
@@ -7,18 +27,7 @@ file_save:
     
     lda DOS_FLAG
     beq @ok
-    
-    lda #<@err
-    ldx #>@err
-    jsr kprint
-    rts
+    jmp dos_print_error
 
 @ok:
-    lda #<@save_ok
-    ldx #>@save_ok
-    jsr kprint
     rts
-@save_ok:
-    .byte "FILE SAVED", CR, LF, 0
-@err:
-    .byte "SAVE ERROR", CR, LF, 0

@@ -199,14 +199,70 @@ PAUSE:
         bne @loop
         rts
 
-;; TODO: Implement
+;; LOAD "FILENAME"
 LOAD:
-	rts
+        jsr extract_file_name
+        ;; Code start address
+        lda TXTTAB
+        sta filestart
+        lda TXTTAB + 1
+        sta filestart + 1
+        jsr file_load
+
+;; Restore variables pointer
+        lda TXTTAB
+        clc 
+        adc filesize
+        sta VARTAB
+        
+        lda TXTTAB+1
+        adc filesize+1
+        sta VARTAB+1
+;; Show message        
+        lda #<@msg
+        ldx #>@msg
+        jsr kprint
+;; Restore vars
+        jmp FIX_LINKS
+@msg:
+        .byte CR, LF,"FILE LOADED", CR, LF, 0
 
 ;; SAVE "FILENAME"
 SAVE:
 ;; Store data from TXTTAB
 ;; Lenght should be (VARTAB)-(TXTTAB)
+        jsr extract_file_name
+;; Code start address
+        lda TXTTAB
+        sta filestart
+        lda TXTTAB + 1
+        sta filestart + 1
+;; Code lenght
+        lda VARTAB
+        sec
+        sbc TXTTAB
+        sta filesize
+        lda VARTAB + 1
+        sec
+        sbc TXTTAB + 1
+        sta filesize + 1
+;; Save code
+        jsr file_save
+        lda #<@msg
+        ldx #>@msg
+        jmp kprint
+@msg:
+        .byte CR, LF,"FILE SAVED", CR, LF, 0
+
+KILL:
+        jsr extract_file_name
+        jmp file_kill
+
+;; Syntax error        
+syn_err:
+        jmp SYNERR
+
+extract_file_name:
         cmp #'"'
         bne syn_err
 
@@ -225,26 +281,7 @@ SAVE:
 @noquota:       
         lda #0
         sta filename, y
-;; Code start address
-        lda TXTTAB
-        sta filestart
-        lda TXTTAB + 1
-        sta filestart + 1
-;; Code lenght
-        lda VARTAB
-        sec
-        sbc TXTTAB
-        sta filesize
-        lda VARTAB + 1
-        sec
-        sbc TXTTAB + 1
-        sta filesize + 1
-;; Save code
-        jmp file_save
-
-;; Syntax error        
-syn_err:
-        jmp SYNERR
+        rts
 
 ;; Computer will reboots - no need for anything another
 RESET_CPU:

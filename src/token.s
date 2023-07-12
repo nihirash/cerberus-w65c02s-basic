@@ -52,6 +52,7 @@
 		keyword_rts "FILES", dos_dir
 		keyword_rts "PAUSE", PAUSE
 		keyword_rts "RESET", RESET_CPU
+		keyword_rts "KILL", KILL
 		count_tokens
 
 		keyword	"TAB(", TOKEN_TAB

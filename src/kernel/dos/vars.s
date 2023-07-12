@@ -14,4 +14,6 @@ dir_entry:
 dir_filename:
     .res 13
 
+error_code:
+    .res 1
 .segment "KERNEL"

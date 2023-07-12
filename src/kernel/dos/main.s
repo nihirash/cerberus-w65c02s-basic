@@ -4,3 +4,4 @@
     .include "messages.s"
     .include "vars.s"
     .include "defines.s"
+    .include "errors.s"
