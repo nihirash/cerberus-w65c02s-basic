@@ -34,6 +34,10 @@ I'm standing on shoulders of titans. Some code possibly acquired from public res
 
  * **KILL "filename"** - deletes file on disk
 
+ * **BLOAD "filename",addr** - load binary file to specified address of memory
+
+ * **BSAVE "filename",addr,len** - save memory dump to disk from specified address with specified lenght 
+
 ### Terminal extensions
 
  * **KEY$(n)** function - reads key if zero - non blocking. For example
@@ -65,6 +69,8 @@ Letters will be always uppercased.
     30 CLS
     50 PRINT "X=";STR$(x);" Y=";STR$(y)
  ```
+
+ * **SOUND freq, lenght** - plays sounds
 
 ### Low resolution graphics
 

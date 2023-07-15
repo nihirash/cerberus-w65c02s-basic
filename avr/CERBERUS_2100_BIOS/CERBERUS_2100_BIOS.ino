@@ -380,6 +380,10 @@ void messageHandler(void) {
 						retVal = (byte)(status + 0x80);
 					}
 					break;
+        case 0x7E:
+          cmdSoundNb(address);
+          status = STATUS_READY;
+          break;
 				case 0x7F:
 					resetFunc();
 					break;
@@ -394,10 +398,18 @@ void messageHandler(void) {
 // Handle SOUND command from BASIC
 //
 void cmdSound(unsigned int address) {
-	unsigned int frequency = cpeekW(address);
-	unsigned int duration = cpeekW(address + 2) * 50;
-	tone(SOUND, frequency, duration);
+  cmdSoundNb(address);
+  
+  unsigned int duration = cpeekW(address + 2) * 50;
 	delay(duration);
+}
+
+// Non blocking SOUND command.
+// Can be used for games/demos
+void cmdSoundNb(unsigned int address) {
+  unsigned int frequency = cpeekW(address);
+  unsigned int duration = cpeekW(address + 2) * 50;
+  tone(SOUND, frequency, duration);
 }
 
 // Handle ERASE command from BASIC

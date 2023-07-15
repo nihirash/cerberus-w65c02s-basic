@@ -283,6 +283,67 @@ extract_file_name:
         sta filename, y
         rts
 
+;; Load binary
+;; BLOAD "FILENAME", addr
+BLOAD:
+        jsr extract_file_name
+        jsr CHKCOM
+        jsr FRMNUM
+        jsr GETADR
+        
+        lda LINNUM
+        sta filestart
+        
+        lda LINNUM+1
+        sta filestart+1
+        jmp file_load
+        
+;; Save binary
+;; BSAVE "FILENAME", addr, len
+BSAVE:
+        jsr extract_file_name
+        jsr CHKCOM
+        jsr FRMNUM
+        jsr GETADR
+        
+        lda LINNUM
+        sta filestart
+        
+        lda LINNUM+1
+        sta filestart+1
+
+        jsr CHKCOM
+        jsr FRMNUM
+        jsr GETADR
+        
+        lda LINNUM
+        sta filesize
+        
+        lda LINNUM+1
+        sta filesize+1
+
+        jmp file_save
+
+;; SOUND duration, freq
+SOUND:
+        jsr FRMNUM
+        jsr GETADR
+
+        lda LINNUM
+        sta beep_time
+        lda LINNUM+1
+        sta beep_time+1
+
+        jsr CHKCOM
+        jsr FRMNUM
+        jsr GETADR
+
+        lda LINNUM
+        sta beep_freq
+        lda LINNUM+1
+        sta beep_freq+1
+        jmp beep
+
 ;; Computer will reboots - no need for anything another
 RESET_CPU:
         lda #$7F

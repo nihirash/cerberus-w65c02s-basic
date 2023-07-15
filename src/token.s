@@ -53,6 +53,9 @@
 		keyword_rts "PAUSE", PAUSE
 		keyword_rts "RESET", RESET_CPU
 		keyword_rts "KILL", KILL
+		keyword_rts "BLOAD", BLOAD
+		keyword_rts "BSAVE", BSAVE
+		keyword_rts "SOUND", SOUND
 		count_tokens
 
 		keyword	"TAB(", TOKEN_TAB

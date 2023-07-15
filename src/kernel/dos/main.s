@@ -1,4 +1,3 @@
-    .include "result.s"
     .include "directory.s"
     .include "files.s"
     .include "messages.s"

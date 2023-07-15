@@ -24,4 +24,12 @@ KBD_DN = 10
 KBD_LF = 8
 KBD_RT = 21
 
+CMD_BEEP      = $01
+CMD_LOAD      = $02
+CMD_SAVE      = $03
+CMD_DEL       = $04
+CMD_CAT_OPEN  = $05
+CMD_CAT_ENTRY = $06
+
+
 APP_START = COLD_START

@@ -9,4 +9,6 @@
 .include "lrg/lrg.s"
 .include "tiles/main.s"
 .include "dos/main.s"
+.include "bios_call.s"
+.include "sound.s"
 .include "vars.s"
