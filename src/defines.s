@@ -10,7 +10,7 @@ CURDVC			:= $000E
 TISTR			:= $008D
 Z96				:= $0096
 TXPSV			:= LASTOP
-USR				:= GORESTART ; XXX
+
 
 ;; Extra tokens table flag
 EXTRA_TABLE_FLAG := $FCB0
@@ -27,8 +27,6 @@ WIDTH2			:= 70
 ENTROPY = $F821
 
 ; monitor functions
-MONRDKEY        := line_rdkey
-MONCOUT         := putc
 CLALL           := do_nothing
 
 BYTES_FP		:= 5

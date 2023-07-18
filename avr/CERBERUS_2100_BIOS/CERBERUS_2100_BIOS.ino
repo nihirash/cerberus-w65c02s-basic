@@ -43,7 +43,7 @@
 #include "src/PS2Keyboard/PS2Keyboard.h"
 
 /** Compilation defaults **/
-#define	config_dev_mode	0			// Turn off various BIOS outputs to speed up development, specifically uploading code
+#define	config_dev_mode	1			// Turn off various BIOS outputs to speed up development, specifically uploading code
 #define config_silent 0				// Turn off the startup jingle
 #define config_enable_nmi 1			// Turn on the 50hz NMI timer when CPU is running. If set to 0 will only trigger an NMI on keypress
 #define config_default_cpu 0		// 0: 6502, 1: Z80
@@ -161,7 +161,7 @@ void setup() {
   	/** Clear edit line **/
   	clearEditLine();
   	storePreviousLine();
-  	Serial.begin(9600);
+  	Serial.begin(115200);
 	/** Initialize keyboard library **/
   	keyboard.begin(DataPin, IRQpin);
     keyboard.send(0xFF);

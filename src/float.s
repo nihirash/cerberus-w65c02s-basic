@@ -1468,8 +1468,7 @@ L3DD5:
         ldy     CHARAC
 L3DEF:
         jsr     MFA
-        tya
-        pha
+        phy
         jsr     LOG
         lda     #TEMP3
         ldy     #$00

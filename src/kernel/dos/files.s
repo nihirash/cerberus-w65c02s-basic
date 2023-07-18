@@ -11,7 +11,7 @@ file_load:
     ldx #<filestart
     ldy #>filestart
     jsr bios_request
-    lda DOS_FLAG
+    lda BIOS_FLAG
 
     beq @ok
     jmp dos_print_error
@@ -25,7 +25,7 @@ file_save:
     ldy #>filestart
     jsr bios_request
     
-    lda DOS_FLAG
+    lda BIOS_FLAG
     beq @ok
     jmp dos_print_error
 

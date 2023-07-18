@@ -38,10 +38,7 @@ GETADR:
 ; "PEEK" FUNCTION
 ; ----------------------------------------------------------------------------
 PEEK:
-        lda     LINNUM+1
-        pha
-        lda     LINNUM
-        pha
+        pushlinum
 
         jsr     GETADR
         ldy     #$00
@@ -49,10 +46,7 @@ PEEK:
         lda     (LINNUM),y
         tay
 
-        pla
-        sta     LINNUM
-        pla
-        sta     LINNUM+1
+        poplinum
 LD6F6:
         jmp     SNGFLT
 

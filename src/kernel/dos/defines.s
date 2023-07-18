@@ -1,2 +1,0 @@
-DOS_FLAG = $202
-DOS_DATA = $203

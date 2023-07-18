@@ -113,6 +113,27 @@ qput_c:
   ply
   rts
 
+clean_lines:
+  pha 
+  phy
+  lda #CR
+  jsr putc
+
+  ldy #80
+@loop:
+  lda #' '
+  jsr putc
+  dey
+  bne @loop
+  lda #KBD_UP
+  jsr putc
+  lda #KBD_UP
+  jsr putc
+  lda #KBD_UP
+  jsr putc
+  ply
+  pla
+  rts
 
 putc:
   phy
@@ -376,3 +397,38 @@ scroll_up:
 @end:
   ply
   rts
+
+check_scroll:
+        pha
+        inc list_cnt
+        lda list_cnt
+        cmp #20
+        bne @skip
+
+        stz list_cnt
+        phx 
+        phy
+        lda #<@scroll_req
+        ldx #>@scroll_req
+        jsr kprint
+        ply
+        plx
+        stz MAILFLAG
+@wait:
+        lda MAILFLAG
+        beq @wait
+
+        phx 
+        phy
+        lda #<@scroll_era
+        ldx #>@scroll_era
+        jsr kprint
+        ply
+        plx
+@skip:
+        pla
+        rts
+@scroll_req:
+        .byte "SCROLL?",0
+@scroll_era:
+        .byte CR, "       ",CR,0

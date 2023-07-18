@@ -518,8 +518,7 @@ L34E2:
 ; ----------------------------------------------------------------------------
 CHRSTR:
         jsr     CONINT
-        txa
-        pha
+        phx
         lda     #$01
         jsr     STRSPA
         pla
@@ -551,8 +550,7 @@ SUBSTRING3:
         lda     DSCPTR
         ldy     DSCPTR+1
         jsr     FRETMP
-        pla
-        tay
+        ply
         pla
         clc
         adc     INDEX
@@ -617,8 +615,7 @@ SUBSTRING_SETUP:
 
         pla
         pla
-        pla
-        tax
+        plx
         pla
         sta     DSCPTR
         pla
@@ -626,8 +623,7 @@ SUBSTRING_SETUP:
 
         lda     Z52
         pha
-        tya
-        pha
+        phy
  
         ldy     #$00
         txa
@@ -716,8 +712,7 @@ L35C4:
         ldy     #$00
         lda     (DEST),y
         pha
-        lda     #$00
-        sta     (DEST),y
+        stz     (DEST),y
         jsr     CHRGOT
         jsr     FIN
         pla

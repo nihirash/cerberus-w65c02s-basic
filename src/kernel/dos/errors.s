@@ -1,5 +1,5 @@
 dos_print_error:
-    lda DOS_FLAG
+    lda BIOS_FLAG
     beq @ret
     and #$7f
     sta error_code
@@ -29,9 +29,9 @@ dos_print_error:
 
 
 dos_errors:
-    .byte 3, CR, LF, "UNKNOWN COMMAND", CR, LF, 0
-    .byte 4, CR, LF, "FILE NOT EXISTS", CR, LF, 0
-    .byte 5, CR, LF, "CAN'T OPEN FILE", CR, LF, 0
-    .byte 8, CR, LF, "FILE ALREADY EXISTS", CR, LF, 0
-    .byte 9, CR, LF, "ADDRESS ERROR", CR, LF, 0
+    .byte 3, CR, LF, "BIOS ERROR: UNKNOWN COMMAND ", 9, CR, LF, 0
+    .byte 4, CR, LF, "BIOS ERROR: FILE NOT EXISTS ", 9, CR, LF, 0
+    .byte 5, CR, LF, "BIOS ERROR: CAN'T OPEN FILE ", 9, CR, LF, 0
+    .byte 8, CR, LF, "BIOS ERROR: FILE ALREADY EXISTS ", 9, CR, LF, 0
+    .byte 9, CR, LF, "BIOS ERROR: ADDRESS ERROR ", 9, CR, LF, 0
     .byte $ff

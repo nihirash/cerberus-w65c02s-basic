@@ -7,6 +7,20 @@
 	.byte	.strat(str,.strlen(str)-1) | $80
 .endmacro
 
+.macro pushlinum
+		lda     LINNUM+1
+        pha
+        lda     LINNUM
+        pha
+.endmacro
+
+.macro poplinum
+		pla
+        sta     LINNUM
+        pla
+        sta     LINNUM+1
+.endmacro
+
 ; For every token, a byte gets put into segment "DUMMY".
 ; This way, we count up with every token. The DUMMY segment
 ; doesn't get linked into the binary.

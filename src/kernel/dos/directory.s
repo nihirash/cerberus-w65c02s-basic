@@ -1,5 +1,7 @@
 ;; Directory
 dos_dir:
+    stz list_cnt
+
     lda #CMD_CAT_OPEN
     ldx #<dir_entry
     ldy #>dir_entry
@@ -10,8 +12,14 @@ dos_dir:
     ldy #>dir_entry
     jsr bios_request
 @wait:
-    lda DOS_FLAG
+    lda BIOS_FLAG
     bmi @exit
+    
+    jsr check_scroll
+    
+    lda MAILBOX
+    cmp #KBD_BRK
+    beq @exit
 
     lda #<@str
     ldx #>@str
@@ -24,7 +32,7 @@ dos_dir:
     lda #'"'
     jsr putc
 
-    lda #20
+    lda #26
     sta COL
 
     lda #<@size
@@ -37,12 +45,16 @@ dos_dir:
     lda dir_entry
     jsr print_hex
 
+    lda #<crlf
+    ldx #>crlf
+    jsr kprint
+
     bra @loop
 @exit:
     rts
 @str:
-    .byte CR,LF,"     ",$22,0
+    .byte "     ",$22,0
 @size:
-    .byte ": REM size ", 0
+    .byte ":REM ", 0
 crlf:
     .byte CR, LF, 0

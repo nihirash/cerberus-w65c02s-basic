@@ -5,7 +5,7 @@
 ; CTRL-C handler
 ISCNTC:
   lda MAILBOX
-  cmp #27
+  cmp #KBD_BRK
   bne do_nothing
   stz MAILFLAG
   jmp STOP

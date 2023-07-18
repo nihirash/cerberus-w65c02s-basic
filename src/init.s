@@ -10,11 +10,6 @@ COLD_START:
       sta     JMPADRS
       sta     GORESTART
 
-      lda     #<IQERR
-      ldy     #>IQERR
-
-      sta     USR+1
-      sty     USR+2
 
       lda     #WIDTH
       sta     Z17

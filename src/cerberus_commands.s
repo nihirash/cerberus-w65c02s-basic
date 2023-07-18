@@ -218,6 +218,8 @@ LOAD:
         lda TXTTAB+1
         adc filesize+1
         sta VARTAB+1
+        
+        jsr clean_lines
 ;; Show message        
         lda #<@msg
         ldx #>@msg
@@ -248,6 +250,9 @@ SAVE:
         sta filesize + 1
 ;; Save code
         jsr file_save
+
+        jsr clean_lines
+
         lda #<@msg
         ldx #>@msg
         jmp kprint
@@ -290,12 +295,15 @@ BLOAD:
         jsr CHKCOM
         jsr FRMNUM
         jsr GETADR
+        pushlinum
         
         lda LINNUM
         sta filestart
-        
         lda LINNUM+1
         sta filestart+1
+        
+        poplinum
+
         jmp file_load
         
 ;; Save binary
@@ -305,7 +313,8 @@ BSAVE:
         jsr CHKCOM
         jsr FRMNUM
         jsr GETADR
-        
+
+        pushlinum
         lda LINNUM
         sta filestart
         
@@ -321,11 +330,13 @@ BSAVE:
         
         lda LINNUM+1
         sta filesize+1
-
+        poplinum
         jmp file_save
 
 ;; SOUND duration, freq
 SOUND:
+        pushlinum
+
         jsr FRMNUM
         jsr GETADR
 
@@ -342,11 +353,20 @@ SOUND:
         sta beep_freq
         lda LINNUM+1
         sta beep_freq+1
+        
+        poplinum
+
         jmp beep
+
+SYS:
+        jsr FRMNUM
+        jsr GETADR
+        jmp (LINNUM)
 
 ;; Computer will reboots - no need for anything another
 RESET_CPU:
         lda #$7F
-        sta DOS_FLAG
-        rts
+        sta BIOS_FLAG
+@loop:
+        bra @loop
         

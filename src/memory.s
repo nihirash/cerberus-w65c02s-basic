@@ -142,8 +142,7 @@ L230B:
         sta     FAC,x
         inx
         bmi     L230B
-        pla
-        tay
+        ply
         pla
         cpy     FRETOP+1
         bcc     L231E

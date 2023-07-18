@@ -4,9 +4,6 @@
 		keyword_rts "FOR", FOR
 		keyword_rts "NEXT", NEXT
 		keyword_rts "DATA", DATA
-.ifdef CONFIG_FILE
-		keyword_rts "INPUT#", INPUTH
-.endif
 		keyword_rts "INPUT", INPUT
 		keyword_rts "DIM", DIM
 		keyword_rts "READ", READ
@@ -25,23 +22,12 @@
 		keyword_rts "SAVE", SAVE
 		keyword_rts "DEF", DEF
 		keyword_rts "POKE", POKE
-.ifdef CONFIG_FILE
-		keyword_rts "PRINT#", PRINTH
-.endif
 		keyword_rts "PRINT", PRINT, TOKEN_PRINT
 		keyword_rts "CONT", CONT
 		keyword_rts "LIST", LIST
 		keyword_rts "CLEAR", CLEAR
 		keyword_rts "VER", VER
-
-.ifdef CONFIG_FILE
-		keyword_rts "CMD", CMD
-		keyword_rts "SYS", SYS
-		keyword_rts "OPEN", OPEN
-		keyword_rts "CLOSE", CLOSE
-.endif
 		keyword_rts "NEW", NEW
-
 		keyword_rts "CLS", clear_screen
 		keyword_rts "LOCATE", LOCATE
 		keyword_rts "PSET", PSET
@@ -56,6 +42,7 @@
 		keyword_rts "BLOAD", BLOAD
 		keyword_rts "BSAVE", BSAVE
 		keyword_rts "SOUND", SOUND
+		keyword_rts "SYS", SYS
 		count_tokens
 
 		keyword	"TAB(", TOKEN_TAB
@@ -83,7 +70,6 @@ UNFNC:
 		keyword_addr "INT", INT
 		keyword_addr "ABS", ABS
 		keyword_addr "KEY$", KEYSTR
-		keyword_addr "USR", USR, TOKEN_USR
 		keyword_addr "FRE", FRE
 		keyword_addr "POS", POS
 		keyword_addr "SQR", SQR

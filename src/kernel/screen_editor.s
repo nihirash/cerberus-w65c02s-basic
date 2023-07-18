@@ -53,7 +53,12 @@ send_line:
     dey
     bne @get_len_loop
 ;; If line empty no need for copying 
-    beq @exit
+    lda (KERN_PTR), y
+    cmp #SPACE
+    bne @len_found
+    lda #LF
+    jsr putc
+    bra screen_editor
 ;; When we found first significant symbol(not space) - stop here
 @len_found:
     tya     ;; A - contains command lenght 
@@ -95,7 +100,7 @@ line_rdkey:
     cmp #KBD_LF
     beq @loop
 
-    jmp rdkey_out
+    rts
 
 
 ;; Read key for editor
@@ -107,10 +112,13 @@ editor_rdkey:
 
     stz MAILFLAG
     lda MAILBOX
+    
+    cmp #KBD_BRK
+    beq @loop
 rdkey_out:
   cmp #$0D
   beq @noout
   ;; Echo
-  jsr MONCOUT
+  jmp putc
 @noout:
   rts

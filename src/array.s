@@ -67,8 +67,7 @@ ARRAY:
         pha
         ldy     #$00
 L2FDE:
-        tya
-        pha
+        phy
         lda     VARNAM+1
         pha
         lda     VARNAM
@@ -78,8 +77,7 @@ L2FDE:
         sta     VARNAM
         pla
         sta     VARNAM+1
-        pla
-        tay
+        ply
         tsx
         lda     STACK+2,x
         pha
@@ -269,9 +267,8 @@ FIND_ARRAY_ELEMENT:
 L30F6:
         sta     STRNG2+1
         iny
-        pla
-        tax
-        sta     FAC_LAST-1
+        plx
+        stx     FAC_LAST-1
         pla
         sta     FAC_LAST
         cmp     (LOWTR),y

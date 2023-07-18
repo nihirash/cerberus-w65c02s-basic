@@ -8,6 +8,8 @@ FRAM = $F000
 VRAM = $F800
 MAILFLAG = $0200
 MAILBOX  = $0201
+BIOS_FLAG = $202
+BIOS_PTR = $203
 
 MAX_ROW = 30
 MAX_COL = 40
@@ -18,6 +20,7 @@ LGR_COLS = 80
 
 KBD_RET  = $0D  ; Return
 KBD_BACK = 127  ; Backspace
+KBD_BRK  = 27
 
 KBD_UP = 11
 KBD_DN = 10

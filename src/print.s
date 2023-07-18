@@ -154,7 +154,7 @@ OUTDO:
         bcc     L2A4E
 LCA6A:
 L2A4E:
-        jsr     MONCOUT
+        jsr     putc
 L2A56:
         and     #$FF
 LE8F2:

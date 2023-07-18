@@ -148,7 +148,8 @@ PROCESS_INPUT_ITEM:
         bit     INPUTFLG
 
         bvc     L2AF0
-        jsr     MONRDKEY
+        jsr     line_rdkey
+        jsr     rdkey_out
         sta     INPUTBUFFER
 ; BUG: The beq/bne L2AF8 below is supposed
 ; to be always taken. For this to happen,

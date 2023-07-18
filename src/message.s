@@ -5,6 +5,6 @@ QT_ERROR:
 QT_IN:
         .byte   " IN ", 0
 QT_OK:
-        .byte   CR, LF,"READY ", 0
+        .byte   CR, LF,"READY", 0
 QT_BREAK:
         .byte CR,LF,"BREAK", 0

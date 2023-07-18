@@ -117,8 +117,7 @@ L2C4E:
         .byte   $24
 FRMEVL1:
         pha
-        txa
-        pha
+        phx
         lda     #$01
         jsr     CHKMEM
         jsr     FRM_ELEMENT
@@ -234,8 +233,7 @@ FRM_STACK2:
         inc     INDEX+1
 LEB69:
 
-        tya
-        pha
+        phy
 
 ; ----------------------------------------------------------------------------
 ; ENTER HERE FROM "FOR", WITH (INDEX) = STEP,
@@ -510,24 +508,19 @@ UNARY:
         jsr     FRMEVL
         jsr     CHKCOM
         jsr     CHKSTR
-        pla
-        tax
+        plx
         lda     FAC_LAST
         pha
         lda     FAC_LAST-1
         pha
-        txa
-        pha
+        phx
         jsr     GETBYT
-        pla
-        tay
-        txa
-        pha
+        ply
+        phx
         jmp     L2DF4
 L2DEF:
         jsr     PARCHK
-        pla
-        tay
+        ply
 L2DF4:
         lda     UNFNC-TOKEN_SGN-TOKEN_SGN+$100,y
         sta     JMPADRS+1
