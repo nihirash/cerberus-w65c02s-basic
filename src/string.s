@@ -712,7 +712,8 @@ L35C4:
         ldy     #$00
         lda     (DEST),y
         pha
-        stz     (DEST),y
+        lda     #$00
+        sta     (DEST),y
         jsr     CHRGOT
         jsr     FIN
         pla

@@ -6,4 +6,7 @@ beep_time:
 
 list_cnt:
     .res 1
+
+was_scroll:
+    .res 1
 .segment "KERNEL"

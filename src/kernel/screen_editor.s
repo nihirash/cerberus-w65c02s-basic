@@ -18,6 +18,8 @@ screen_editor:
 
     jmp @loop
 @store_KERN_PTR:
+    stz was_scroll
+
     lda LINE
     sta KERN_PTR
 
@@ -28,6 +30,19 @@ screen_editor:
 ;; Return key pressed - we should copy line from screen to inputbuffer
 send_line:
     jsr erase_cursor ;; To prevent inverted symbols after editing line
+
+    lda was_scroll
+    beq @notscrolled
+
+    lda KERN_PTR
+    sec
+    sbc #40
+    sta KERN_PTR
+
+    lda KERN_PTR + 1
+    sbc #0
+    sta KERN_PTR + 1
+@notscrolled:
 
     lda LINE + 1
     cmp KERN_PTR + 1

@@ -38,6 +38,8 @@ I'm standing on shoulders of titans. Some code possibly acquired from public res
 
  * **BSAVE "filename",addr,len** - save memory dump to disk from specified address with specified lenght 
 
+ * **SYS addr** - call routine in machine code with specified address
+
 ### Terminal extensions
 
  * **KEY$(n)** function - reads key if zero - non blocking. For example

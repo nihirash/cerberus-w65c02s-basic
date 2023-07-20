@@ -328,6 +328,10 @@ next2:
 
 scroll_up:
   phy
+  
+  lda #1
+  sta was_scroll
+
   ldy #00
 @next:
   lda $F828,y

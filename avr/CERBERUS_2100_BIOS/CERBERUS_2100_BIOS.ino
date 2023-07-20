@@ -43,7 +43,7 @@
 #include "src/PS2Keyboard/PS2Keyboard.h"
 
 /** Compilation defaults **/
-#define	config_dev_mode	1			// Turn off various BIOS outputs to speed up development, specifically uploading code
+#define	config_dev_mode	0			// Turn off various BIOS outputs to speed up development, specifically uploading code
 #define config_silent 0				// Turn off the startup jingle
 #define config_enable_nmi 1			// Turn on the 50hz NMI timer when CPU is running. If set to 0 will only trigger an NMI on keypress
 #define config_default_cpu 0		// 0: 6502, 1: Z80
@@ -563,6 +563,11 @@ void enter() {  /** Called when the user presses ENTER, unless a CPU program is 
     for (i = 0; i < 38; i++) previousEditLine[i] = editLine[i]; /** Store edit line just executed **/
     runCode();
   /** SAVE **********************************************************************************/
+  } else if (nextWord == F("basic65")) {
+    mode = false;
+    digitalWrite(CPUSLC, LOW);
+    catLoad("basic65.bin","", false); 
+    runCode();
   } else if (nextWord == F("save")) {
     nextWord = getNextWord(false);						/** Start start address **/
     nextNextWord = getNextWord(false);					/** End address **/
