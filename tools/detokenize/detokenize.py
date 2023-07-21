@@ -60,9 +60,25 @@ def read_tokens():
                     token = replacement[token]
                 tokens[addr] = token
 
+def read_byte(ptr):
+    global ramstart2, data
+    addr_offset = ramstart2 + 1
+    try:
+        return data[ptr - addr_offset]
+    except:
+        return 0
+
+def read_word(ptr):
+    global ramstart2, data
+    addr_offset = ramstart2 + 1
+    addr = ptr - addr_offset
+    try:
+        return data[addr] + (data[addr + 1] * 256)
+    except:
+        return 0
 
 def detokenize(name):
-    global tokens, ramstart2
+    global tokens, ramstart2, data
     addr_offset = ramstart2 + 1
     next_line = addr_offset
     pointer = next_line
@@ -71,28 +87,27 @@ def detokenize(name):
         data=source.read()
         while (True):
             code_line = ""
-
-            if data[pointer - addr_offset] == data[pointer - addr_offset + 1] == 0:
-                break
-
-            next_line=data[pointer - addr_offset] + data[pointer- addr_offset+1]*256
+            next_line=read_word(pointer)
+                        
+            if next_line == 0:
+                return result
+            
             pointer = pointer + 2
 
             # line number
-            code_line =str(data[pointer- addr_offset+1]*256+data[pointer- addr_offset])+" "
+            code_line =str(read_word(pointer))+" "
 
             pointer = pointer + 2
-            while (char := data[pointer-addr_offset]):
+            while (char := read_byte(pointer)):
                 if tokens.get(char):
                     code_line = code_line + tokens[char]
                 else:
                     code_line = code_line + chr(char)
                 pointer = pointer + 1
-
             result =  result + code_line + "\r\n"
 
             pointer = next_line
-    return result
+
         
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Detokenize Cerberus Basic program')

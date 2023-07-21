@@ -164,6 +164,7 @@ void setup() {
   	Serial.begin(115200);
 	/** Initialize keyboard library **/
   	keyboard.begin(DataPin, IRQpin);
+	/** Reset keyboard */
     keyboard.send(0xFF);
   	/** Now access uSD card and load character definitions so we can put something on the screen **/
   	if (!SD.begin(chipSelect)) {
@@ -423,11 +424,11 @@ int cmdDelFile(unsigned int address) {
 //
 int cmdLoad(unsigned int address) {
   int result;
-	unsigned int startAddr = cpeekW(address);
-  bytesRead = 0;
-	cpeekStr(address + 4, editLine, 38);
-	result = load((char *)editLine, startAddr);
+  unsigned int startAddr = cpeekW(address);
+  cpeekStr(address + 4, editLine, 38);
+  result = load((char *)editLine, startAddr);
   cpokeW(address+2, bytesRead);
+  
   return result;
 }
 
@@ -879,6 +880,7 @@ int load(String filename, unsigned int startAddr) {
 			status = STATUS_CANNOT_OPEN; 		/** Cannot open the file **/
 	  	}
       	else {
+			bytesRead = 0;
         	while (dataFile.available()) {		/** While there is data to be read... **/
           	bytesRead++;
           	cpoke(addr++, dataFile.read());     /** Read data from file and store it in memory **/

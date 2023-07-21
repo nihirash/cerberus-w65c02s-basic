@@ -4,3 +4,4 @@ src/out
 src/basic_ver.s
 src/cerberus
 src/storage
+tmp/
