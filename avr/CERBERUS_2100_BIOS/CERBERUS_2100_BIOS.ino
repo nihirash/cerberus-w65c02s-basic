@@ -1,13 +1,22 @@
 /*********************************************/
 /**         CERBERUS 2100's BIOS code       **/
 /**      Brought to you by The Byte Attic   **/
-/**        For the ATmega328p-PU (CAT)      **/
+/**        For the ATmega328PB              **/
 /**     To be compiled in the arduino IDE   **/
-/**     (use Arduino Uno as target board)   **/
-/** Copyright 2020-2021 by Bernardo Kastrup **/
+/** (use MiniCore library with 328PB MCU)   **/
+/** Copyright 2020-2023 by Bernardo Kastrup **/
 /**            All rights reserved          **/
 /**      Code distributed under license     **/
 /*********************************************/
+
+/**
+ * How to compile:
+ *  - Use minicore library(https://github.com/MCUdude/MiniCore)
+ *  - Select board ATmega328
+ *  - Clock: External 16MHz
+ *  - BOD: 4.3V
+ *  - Varian: 328PB
+ */
 
 /** Provided AS-IS, without guarantees of any kind                        **/
 /** This is NOT a commercial product as has not been exhaustively tested  **/
@@ -28,18 +37,26 @@
 //  06/10/2021: Tweaks for cat command
 //	23/11/2021:	Moved PS2Keyboard library from Arduino library to src subdirectory
 
+/** Updated By:    Aleksandr Sharikhin **/
+/** Created:    22/07/2023             **/
+/** Last Updated: 22/07/2023           **/
+
+// Modinfo:
+// 22/07/2023: Working on Cerberus 2100. 
+//             PS2 keyboard resets on start(more keyboards will work). 
+//             Optimizing loading splash screen. 
+//             Removed unused keymaps. 
+//             One command basic loading. Non blocking sound API.
+//             Updated load command - returning how many bytes was actually read
+
 /** These libraries are built into the arduino IDE  **/
 
 #include <SPI.h>
 #include <SD.h>
 #include <TimerOne.h>
 
-/** For more information about this PS2Keyboard library:    **/
-/** http://www.arduino.cc/playground/Main/PS2Keyboard       **/
-/** http://www.pjrc.com/teensy/td_libs_PS2Keyboard.html     **/
-/** Note that the Arduino managed library is not the latest **/
-/** Install from the GitHub project in order to build       **/
-
+// Working with patched PS2 keyboard library
+// Patches required for BBC Basic and for keeping more keyboards compatible
 #include "src/PS2Keyboard/PS2Keyboard.h"
 
 /** Compilation defaults **/
@@ -183,29 +200,8 @@ void setup() {
   	/** Now prepare the screen **/
   	ccls();
   	cprintFrames();
-  	/** Load the CERBERUS icon image on the screen ************/
-  	int inChar;
-  	if(!SD.exists("cerbicon.img")) {
-		tone(SOUND, 50, 150); /** Tone out an error if file is not available **/
-	}
-  	else {
-    	File dataFile2 = SD.open("cerbicon.img"); /** Open the image file **/
-    	if (!dataFile2) {
-			tone(SOUND, 50, 150);     /** Tone out an error if file can't be opened  **/
-		}
-    	else {
-      		for (byte y = 2; y <= 25; y++) {
-        		for (byte x = 2; x <= 39; x++) {
-	          		String tokenText = "";
-          			while (isDigit(inChar = dataFile2.read())) {
-						tokenText += char(inChar);
-					}
-          			cprintChar(x, y, tokenText.toInt());
-        		}
-			}
-      		dataFile2.close();
-    	}
-  	}
+    cprintBanner();
+  	
   	/**********************************************************/
   	cprintStatus(STATUS_BOOT);
   	/** Play a little jingle while keyboard finishes initializing **/
@@ -564,10 +560,15 @@ void enter() {  /** Called when the user presses ENTER, unless a CPU program is 
     for (i = 0; i < 38; i++) previousEditLine[i] = editLine[i]; /** Store edit line just executed **/
     runCode();
   /** SAVE **********************************************************************************/
-  } else if (nextWord == F("basic65")) {
+  } else if (nextWord == F("basic6502")) {
     mode = false;
     digitalWrite(CPUSLC, LOW);
     catLoad("basic65.bin","", false); 
+    runCode();
+  } else if (nextWord == F("basicz80")) {
+    mode = true;
+    digitalWrite(CPUSLC, HIGH);
+    catLoad("basicz80.bin","", false); 
     runCode();
   } else if (nextWord == F("save")) {
     nextWord = getNextWord(false);						/** Start start address **/
@@ -632,7 +633,7 @@ void help() {
   cprintString(3, 21, F("move ADDR1 ADDR2 ADDR3: Moves bytes"));
   cprintString(5, 22, F("between ADDR1 & ADDR2 to ADDR3 on"));
   cprintString(3, 23, F("help / ?: Shows this help screen"));
-  cprintString(3, 24, F("ESC key: Quits CPU program"));
+  cprintString(3, 24, F("F12 key: Quits CPU program"));
 }
 
 void binMove(String startAddr, String endAddr, String destAddr) {
@@ -733,6 +734,7 @@ void stopCode() {
     load("chardefs.bin", 0xf000);/** Reset the character definitions in case the CPU changed them **/
     ccls();                     /** Clear screen completely **/
     cprintFrames();             /** Reprint the wire frame in case the CPU code messed with it **/
+    cprintBanner();
     cprintStatus(STATUS_DEFAULT);            /** Update status bar **/
     clearEditLine();            /** Clear and display the edit line **/
 }
@@ -1007,18 +1009,42 @@ void ccls() {
 }
 
 void cprintFrames() {
-  	unsigned int x;
-  	unsigned int y;
-  	/** First print horizontal bars **/
-  	for (x = 2; x <= 39; x++) {
-	    cprintChar(x, 1, 3);
-	    cprintChar(x, 30, 131);
-	    cprintChar(x, 26, 3);
-  	}
-  	/** Now print vertical bars **/
-  	for (y = 1; y <= 30; y++) {
-	    cprintChar(1, y, 133);
-	    cprintChar(40, y, 5);
+  unsigned int x;
+  unsigned int y;
+  /** First print horizontal bars **/
+  for (x = 2; x <= 39; x++) {
+    cprintChar(x, 1, 3);
+    cprintChar(x, 30, 131);
+    cprintChar(x, 26, 3);
+  }
+  /** Now print vertical bars **/
+  for (y = 1; y <= 30; y++) {
+    cprintChar(1, y, 160);
+    cprintChar(40, y, 160);
+  }
+}
+
+void cprintBanner() {
+	/** Load the CERBERUS icon image on the screen ************/
+  	int inChar;
+  	if(!SD.exists("cerbicon.img")) {
+		tone(SOUND, 50, 150); /** Tone out an error if file is not available **/
+	}
+  	else {
+    	File dataFile2 = SD.open("cerbicon.img"); /** Open the image file **/
+    	if (!dataFile2) {
+			tone(SOUND, 50, 150);     /** Tone out an error if file can't be opened  **/
+		}
+    	else {
+      		for (byte y = 3; y <= 25; y++) {
+        		for (byte x = 2; x <= 39; x++) {
+					inChar = dataFile2.read();
+					
+          			cprintChar(x, y, inChar);
+        		}
+			}
+      		dataFile2.close();
+    	}
   	}
 }
 
