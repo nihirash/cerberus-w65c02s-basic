@@ -13,8 +13,6 @@ I'm standing on shoulders of titans. Some code possibly acquired from public res
 
 ## Core
 
- * Tokens name table extended to 512 bytes(was 256 before).
-
  * RAM test will check memory from `RAMSTART2` up to `RAMEND`. 
 
  * Token table was extended. My article about [this modification](https://nihirash.net/posts/extending-token-table-msbasic6502/)
@@ -71,7 +69,7 @@ Letters will be always uppercased.
     50 PRINT "X=";STR$(x);" Y=";STR$(y)
  ```
 
- * **SOUND freq, lenght** - plays sounds
+ * **SOUND lenght, freq** - plays sounds
 
 ### Low resolution graphics
 
@@ -83,7 +81,7 @@ Letters will be always uppercased.
 
 ## Tile graphics
 
-User defined graphics that allows use 45(from 1 to 45, zero is empty tile) tiles on screen.
+User defined graphics that allows use 47(from 1 to 47, zero is empty tile) tiles on screen.
 
  * **TILEDEF n,b1,b2,b3,b4,b5,b6,b7,b8** - define tile with number N and bitmap bytes specified by b1..b8
 

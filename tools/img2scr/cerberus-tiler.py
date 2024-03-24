@@ -20,9 +20,10 @@ def convert(img):
     tiles = list(get_tiles(img))
     ctr = Counter(tiles)
     print(f'Unique tiles: {len(ctr)}')
-    lut = { tile: idx for idx, (tile, cnt) in enumerate(ctr.most_common(256)) }
-    tilemap = [ lut[tile] if tile in lut else 0 for tile in tiles ]
-    tileset = list(itertools.chain(*lut.keys()))
+    lut = { tile: idx for idx, (tile, cnt) in enumerate(ctr.most_common(224)) }
+    tilemap = [ 32 + lut[tile] if tile in lut else 32 for tile in tiles ]
+    tileset = [0] * 256
+    tileset += list(itertools.chain(*lut.keys()))
     tileset += [0] * (256 * 8 - len(tileset))
 
     return tilemap, tileset
